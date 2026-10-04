@@ -40,6 +40,7 @@ android-apps-monorepo/
 ├── .roomodes                      # Modos de agente (Roo Code / Cline)
 ├── .mcp.json                      # Servidores MCP del proyecto
 ├── README.md                      # Visión general del monorrepo
+├── CATALOG.md                     # Catálogo de apps (ideas, estado, versión)
 ├── docs/
 │   └── ARCHITECTURE.md            # Este documento
 ├── apps/

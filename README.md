@@ -8,13 +8,14 @@ TypeScript estricto, 100% offline y monetizadas con AdMob.
 - Reglas globales: [`.clinerules`](.clinerules)
 - Modos de agente: [`.roomodes`](.roomodes)
 - Arquitectura y decisiones: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
-- Catálogo de apps: [`apps/README.md`](apps/README.md)
+- Catálogo de apps (ideas, estado y versión): [`CATALOG.md`](CATALOG.md)
+- Registro de apps existentes: [`apps/README.md`](apps/README.md)
 
 ## Principios
 
 - **Cero Backend**: la lógica de negocio nunca depende de `fetch`, `axios` ni servicios HTTP.
 - **Offline First**: toda utilidad funciona sin conexión; los anuncios fallan en silencio.
-- **Privacidad**: sin permisos innecesarios (invariantes INV-001..INV-007).
+- **Privacidad**: sin permisos innecesarios (invariantes INV-001..INV-008).
 
 ## Estructura
 
@@ -22,7 +23,7 @@ TypeScript estricto, 100% offline y monetizadas con AdMob.
 apps/<app-slug>/
 ├── app/          # Expo Router (index, settings, ...)
 ├── src/          # components, lib, theme
-├── docs/         # REQUIREMENTS.md, PLAN.md, memory.md
+├── docs/         # REQUIREMENTS.md, PLAN.md, memory.md, LEGAL.md, issues.md
 ├── app.json
 ├── package.json
 └── tsconfig.json
