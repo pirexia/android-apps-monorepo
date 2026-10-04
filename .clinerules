@@ -57,6 +57,14 @@
   - Cada commit/PR afecta estrictamente a una única micro-app (`apps/nombre-app`).
   - Excepción permitida: cambios raíz (`.clinerules`, `.roomodes`, tooling, CI) en PRs separados con prefijo `chore(root): descripción`.
   - Formato de commits estricto: `tipo(nombre-app): descripción` (ej. `feat(tip-split): añadir selector de propina personalizada`).
+- **Worktrees por paso (norma):**
+  - Cada paso de `apps/<app>/docs/PLAN.md` se ejecuta en un worktree creado desde `develop`:
+    `git worktree add ../<app-slug>-<paso> -b feature/<app-slug>/<paso> develop`.
+  - Prohibido trabajar directamente en el clon principal durante un paso.
+  - Al terminar el paso: commit atómico, push de la rama y PR a `develop`.
+  - Tras el merge: `git worktree remove ../<app-slug>-<paso>` (solo si está limpio) y
+    `git worktree prune` para limpiar worktrees vacíos.
+  - Nunca borrar un worktree con cambios sin commitear; primero commitear o descartar.
 
 ## 7. Definición de Hecho (Definition of Done)
 - [ ] Funcionalidad implementada en `apps/<app-slug>` con TypeScript estricto y StyleSheet.

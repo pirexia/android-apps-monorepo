@@ -135,6 +135,7 @@ customModes:
       Prohibido: reset, revert, checkout -- sobre ficheros, rebase, push --force, clean -fd, y borrar ramas no mezcladas.
       Nunca commitees directamente en main ni en develop. Formato de commit: tipo(app): descripción. Un commit = una app (excepción: chore(root) para cambios raíz).
       Antes de cada commit revisa .gitignore: no deben entrar dependencias, builds, ficheros de entorno, claves ni datos de usuario.
+      Tras un merge, limpia worktrees: git worktree remove <path> solo si está limpio y git worktree prune para los vacíos.
 
   - slug: debug
     name: 🪲 Debug
@@ -167,3 +168,4 @@ customModes:
       Reglas: no pasar a un paso sin la salida del anterior; respetar los gates (spec aprobada antes de plan, plan aprobado antes de código); una app por PR; si un revisor reporta bloqueo, no continuar.
       Tú no implementas ni revisas: coordinas, verificas que cada agente cumplió su salida y registras el estado global en apps/<app-slug>/docs/memory.md (paso actual y siguiente).
       Triage de issues: usa la skill issue-tracking. BAJO → preguntas al usuario si se corrige; MEDIO/ALTO/CRITICO → corrección inmediata. Mantén sincronizado apps/<app-slug>/docs/issues.md.
+      Worktrees: cada paso del plan se ejecuta en un worktree desde develop (git worktree add ../<app-slug>-<paso> -b feature/<app-slug>/<paso> develop); tras el merge del paso, elimina el worktree y ejecuta git worktree prune.

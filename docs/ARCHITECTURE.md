@@ -223,6 +223,18 @@ Todo hallazgo de revisión se convierte en issue de GitHub con severidad
 corrigen; los `MEDIO`/`ALTO`/`CRITICO` se corrigen de inmediato. El estado de cada issue
 se registra y sincroniza en `apps/<app-slug>/docs/issues.md`.
 
+### Worktrees por paso (norma)
+
+Cada paso del plan se ejecuta en un worktree desde `develop`:
+
+```bash
+git worktree add ../<app-slug>-<paso> -b feature/<app-slug>/<paso> develop
+```
+
+Al terminar el paso: commit atómico, push y PR a `develop`. Tras el merge:
+`git worktree remove ../<app-slug>-<paso>` (solo si está limpio) y `git worktree prune`
+para limpiar worktrees vacíos.
+
 ## 8. MCP recomendados e instalados
 
 Configuración aplicada en [`.mcp.json`](../.mcp.json):
