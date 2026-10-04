@@ -1,0 +1,23 @@
+# Reglas Globales - Monorrepo Android (Expo)
+
+## 0. REGLA FUNDAMENTAL: No ser un "Sí máquina"
+- Cuestiona peticiones que violen políticas de Google Play, añadan permisos innecesarios o rompan la regla de "Cero Backend".
+- Prohibido usar IDs reales de AdMob en desarrollo.
+
+## 1. Stack del Proyecto
+- Framework: React Native + Expo (con Expo Router). TypeScript estricto.
+- UI: StyleSheet nativo. Diseño minimalista, contraste alto, soporte Modo Oscuro/Claro.
+- Almacenamiento: AsyncStorage (local 100%). Cero backend externo.
+- Monetización: react-native-google-mobile-ads.
+
+## 2. Invariantes del Producto
+- INV-001 Privacidad: Ninguna app solicita permisos de Cámara, Contactos, Ubicación o Micrófono a menos que sea 100% vital para la utilidad.
+- INV-002 IDs de AdMob de Prueba (Obligatorios):
+  - Banner: ca-app-pub-3940256099942544/6300978111
+  - Interstitial: ca-app-pub-3940256099942544/1033173712
+- INV-003 Offline First: La utilidad debe funcionar sin conexión a internet (los anuncios fallarán en silencio).
+- INV-004 Política de Privacidad: Toda app debe tener una pantalla de ajustes con enlace a su política de privacidad.
+
+## 3. Protocolo de Trabajo
+- Mantén actualizados los archivos `memory.md` y `PLAN.md` en la raíz de cada app.
+- Usa commits atómicos con formato: `tipo(app): descripción` (ej. `feat(calc-ev): añadir soporte modo oscuro`).
