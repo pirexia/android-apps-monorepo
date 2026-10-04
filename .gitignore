@@ -1,0 +1,19 @@
+# Dependencias
+node_modules/
+
+# Expo / builds
+.expo/
+dist/
+web-build/
+*.tsbuildinfo
+
+# Secretos y configuracion local
+.env
+.mcp.json
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# Sistema operativo
+.DS_Store

@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Template App",
+    "slug": "app-template",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "app-template",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.example.apptemplate"
+    }
+  }
+}
