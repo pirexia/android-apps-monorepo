@@ -1,23 +1,105 @@
 # Reglas Globales - Monorrepo Android (Expo)
 
+> Versión 2.0.0 — Mejoras aplicadas por System Architect (docs por app, invariantes reforzadas, DoD).
+
 ## 0. REGLA FUNDAMENTAL: No ser un "Sí máquina"
 - Cuestiona peticiones que violen políticas de Google Play, añadan permisos innecesarios o rompan la regla de "Cero Backend".
-- Prohibido usar IDs reales de AdMob en desarrollo.
+- Prohibido usar IDs reales de AdMob en desarrollo. Solo IDs de prueba (INV-002).
+- Prohibido añadir SDKs de analítica, telemetría o configuración remota que envíen datos del usuario a servidores externos.
+- No importar modos, skills ni extensiones de fuentes de comunidad no verificadas sin revisión previa (riesgo de supply-chain). Se curan en local en `.roo/skills/` y en `.roomodes`, y se documentan.
 
 ## 1. Stack del Proyecto
 - Framework: React Native + Expo (con Expo Router). TypeScript estricto.
 - UI: StyleSheet nativo. Diseño minimalista, contraste alto, soporte Modo Oscuro/Claro.
 - Almacenamiento: AsyncStorage (local 100%). Cero backend externo.
-- Monetización: react-native-google-mobile-ads.
+- Monetización: react-native-google-mobile-ads (IDs reales solo vía configuración de producción, nunca hardcodeados en el código fuente).
 
 ## 2. Invariantes del Producto
 - INV-001 Privacidad: Ninguna app solicita permisos de Cámara, Contactos, Ubicación o Micrófono a menos que sea 100% vital para la utilidad.
 - INV-002 IDs de AdMob de Prueba (Obligatorios):
-  - Banner: ca-app-pub-3940256099942544/6300978111
-  - Interstitial: ca-app-pub-3940256099942544/1033173712
+  - App ID Android (test): `ca-app-pub-3940256099942544~3347511713`
+  - App ID iOS (test): `ca-app-pub-3940256099942544~1458002511`
+  - Banner (test): `ca-app-pub-3940256099942544/6300978111`
+  - Interstitial (test): `ca-app-pub-3940256099942544/1033173712`
 - INV-003 Offline First: La utilidad debe funcionar sin conexión a internet (los anuncios fallarán en silencio).
 - INV-004 Política de Privacidad: Toda app debe tener una pantalla de ajustes con enlace a su política de privacidad.
+- INV-005 Sin red en la lógica de negocio: la funcionalidad principal no puede depender de `fetch`, `axios` ni ningún servicio HTTP.
+- INV-006 Sin permisos innecesarios: no añadir permisos en `app.json` salvo los estrictamente requeridos por la utilidad o por los anuncios.
+- INV-007 Determinismo offline: los datos del usuario se guardan localmente y sobreviven al reinicio; una pérdida de red no debe producir fallos no controlados.
+- INV-008 Cumplimiento legal: ninguna app recoge datos personales o sensibles salvo justificación documentada; toda app incluye política de privacidad y, si procede, aviso legal; las apps con anuncios que operen en EEE/UK gestionan el consentimiento (Google UMP) antes de cargar anuncios.
 
 ## 3. Protocolo de Trabajo
-- Mantén actualizados los archivos `memory.md` y `PLAN.md` en la raíz de cada app.
-- Usa commits atómicos con formato: `tipo(app): descripción` (ej. `feat(calc-ev): añadir soporte modo oscuro`).
+- Cada app mantiene su documentación viva en `apps/<app>/docs/`:
+  - `REQUIREMENTS.md`: requisitos funcionales, historias de usuario y criterios de aceptación.
+  - `PLAN.md`: plan táctico con tareas ordenadas y estado.
+  - `memory.md`: bitácora de progreso (qué se ejecutó, qué falló, siguiente paso).
+  - `LEGAL.md`: textos legales (política de privacidad, aviso legal, términos si aplican).
+  - `issues.md`: registro de hallazgos de revisión con severidad y estado.
+- Formato de commits atómico: `tipo(app): descripción` (ej. `feat(tip-split): añadir selector de propina personalizada`).
+- Una PR = una única app. Prohibido mezclar cambios de múltiples apps en el mismo commit/PR.
+
+## 4. Estándares de Código y Estructura (Monorrepo)
+- Cada app en `apps/` es independiente y autocontenida: `package.json`, `app.json`, `tsconfig.json` y carpeta `app/` de Expo Router propios.
+- Nombres de app: slug en kebab-case, corto y descriptivo (ej. `tip-split`, `calc-ev`).
+- Uso obligatorio de Expo Router (`app/_layout.tsx`, `app/index.tsx`, `app/settings.tsx`).
+- Estilos exclusivamente con `StyleSheet.create` y paleta adaptativa (Dark/Light vía `useColorScheme`).
+- Código compartido opcional en `packages/` solo si está justificado (theme, config, eslint). Ante la duda, duplicar de forma controlada antes que acoplar apps.
+- Cada app debe incluir pantalla de ajustes (`app/settings.tsx`) con enlace a política de privacidad (INV-004).
+
+## 5. Protocolo de Revisión Multi-Agente
+- Ninguna funcionalidad principal se da por terminada sin pasar por validación de seguridad (privacidad y permisos) y control de dependencias offline.
+- Las tareas complejas se planificarán primero con un `PLAN.md` localizador antes de escribir código.
+- Gate de cierre: test-writer (Jest + Testing Library) → security-reviewer (permisos/AdMob/privacidad) → legal-reviewer (textos legales y consentimiento) → store-reviewer (simulación Play Store) → doc-reviewer (docs sincronizadas).
+
+## 6. Flujo de Git y Ramas (Git Workflow en Monorrepo)
+- **Rama Main Prohibida para Desarrollo:** `main` solo contendrá versiones estables y probadas. Prohibido commit/push directo durante el desarrollo.
+- **Rama de Trabajo (`develop`):** desarrollo e integración diaria. Las features salen de `develop` como `feature/<app-slug>/<descripcion>`.
+- **Aislamiento de Pull Requests y Commits:**
+  - Cada commit/PR afecta estrictamente a una única micro-app (`apps/nombre-app`).
+  - Excepción permitida: cambios raíz (`.clinerules`, `.roomodes`, tooling, CI) en PRs separados con prefijo `chore(root): descripción`.
+  - Formato de commits estricto: `tipo(nombre-app): descripción` (ej. `feat(tip-split): añadir selector de propina personalizada`).
+- **Worktrees por cambio (NORMA GENERAL):**
+  - **Todo cambio** (feat, fix, chore, docs, refactor…) se realiza en un **worktree** creado desde `develop`, nunca directamente en el clon principal:
+    `git worktree add ../<scope>-<descripcion> -b <tipo>(<scope>)/<descripcion> develop`.
+  - Nomenclatura de rama = tipo + ámbito: `feat(<app>)`, `fix(<app>)`, `chore(root)`, `docs(root)`, `refactor(<app>)`, etc.
+  - Prohibido trabajar directamente en el clon principal.
+  - Al terminar: **commits atómicos** (un commit = un ámbito) → push de la rama → **PR a `develop`**.
+  - Tras el merge: `git worktree remove ../<scope>-<descripcion>` (solo si está limpio) y `git worktree prune`.
+  - Nunca borrar un worktree/rama con cambios sin commitear; primero commitear o descartar.
+
+- **Flujo de integración (NORMA):**
+  1. Cada cambio: **worktree desde `develop`** → commits atómicos → push → **PR a `develop`** → merge.
+  2. `develop` es la rama de integración diaria; `main` solo recibe merges finales cuando el ciclo está cerrado y en verde.
+  3. Cierre de ciclo: todos los PR a `develop` mergeados → limpieza de worktrees/ramas (`worktree remove`/`prune`, borrar ramas ya mergeadas) → **PR `develop` → `main`** → merge → `git fetch --prune`.
+  4. Prohibido commit/push directo en `develop` o `main`; siempre vía PR. Usar `gh` para crear y mergear PRs.
+
+## 7. Definición de Hecho (Definition of Done)
+- [ ] Funcionalidad implementada en `apps/<app-slug>` con TypeScript estricto y StyleSheet.
+- [ ] Tests unitarios (Jest + Testing Library) pasando.
+- [ ] `memory.md`, `PLAN.md` y `REQUIREMENTS.md` actualizados.
+- [ ] Pantalla de ajustes con política de privacidad presente (INV-004).
+- [ ] Validación de seguridad superada (sin permisos extra, IDs de AdMob de prueba en desarrollo).
+- [ ] Cumplimiento legal revisado (INV-008): política de privacidad y aviso legal redactados, sin recogida de datos personales.
+- [ ] Revisión de publicación (Play Store) superada: ficha, Data Safety, anuncios y requisitos técnicos sin bloqueos.
+- [ ] App verificada en modo avión (Offline First, INV-003).
+
+## 8. Sistema de Diseño (UI/UX)
+- **Fuente única de tokens**: `docs/design-system/tokens.md`. Ninguna app define colores, radios, tamaños ni espaciados sueltos.
+- **Antes de maquetar o rediseñar** cualquier pantalla o componente se lee `tokens.md` (skill `design-system`, modo `ui-designer`).
+- **Componentes base reutilizables** en `apps/_template/src/components/ui` (`Button`, `Card`, `Field`, `SegmentedControl`); cada app los duplica de forma controlada (regla "duplicar antes que acoplar").
+- **Dark/Light obligatorios**: estilos solo con `StyleSheet.create` y `useTheme()`; toda pantalla se valida en ambos temas.
+- **Accesibilidad y sobriedad**: contraste AA, áreas táctiles ≥ 44, sombras suaves (la definición la da el borde).
+- **Ámbito: TODAS las apps** del monorrepo. La base común vive en `apps/_template` (tema + `src/components/ui`) y en `docs/design-system/` ([`tokens.md`](docs/design-system/tokens.md), [`app-pattern.md`](docs/design-system/app-pattern.md), ejemplo [`tip-split-home.md`](docs/design-system/tip-split-home.md)).
+- El modo `ui-designer` aplica el sistema; no toca lógica de negocio, almacenamiento, anuncios ni `app.json`.
+
+## 9. Autonomía Operativa
+- **Ejecuta sin pedir permiso** los comandos de verificación y build del proyecto: `npx tsc --noEmit`, `npx jest`, `npx expo export`, `./gradlew assembleDebug|assembleRelease` (con `JAVA_HOME`/`ANDROID_HOME` locales), `npx expo prebuild`, validaciones de config, etc.
+- **Pregunta al usuario SOLO si**: (a) falta un dato suyo (p. ej. identidad legal, IDs reales de AdMob, credenciales), (b) la acción es destructiva o irreversible en git (`reset`, `revert`, `checkout --`, rebase, `push --force`, borrar ramas/worktrees con cambios), o (c) se incumpliría una política/invariante.
+- **No pidas confirmación** para lectura, creación/edición dentro del ámbito del modo, ni para verificar tu propio trabajo: hazlo y reporta el resultado real.
+- **Nunca** declares "probado/verde/compila" algo que no hayas ejecutado y visto pasar.
+
+## 10. Trabajo Multiagente
+- Las tareas complejas (app nueva, funcionalidad, rediseño, revisiones) se ejecutan con el **pipeline de modos** ([`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) §7), coordinado por `orchestrator` y delegando cada paso con `new_task`.
+- **Diseño**: el paso UI lo hace `ui-designer` (skill `design-system` + `tokens.md`), antes o junto al `implementer`.
+- **Ámbitos**: cada modo escribe solo en su ámbito (ver `.roomodes`); no solapar el mismo fichero entre agentes a la vez.
+- El `orchestrator` mantiene el estado global en `apps/<app-slug>/docs/memory.md` y verifica la salida de cada paso antes de continuar.
