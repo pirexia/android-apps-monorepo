@@ -94,3 +94,5 @@
 - **Verificación**: `tsc --noEmit` limpio; `jest` → **5 suites, 28 tests** en verde.
 - **Entorno de build**: sin Java/Android SDK/gradle → el APK/AAB se genera fuera
   (EAS `preview`/`production` o Android Studio).
+- **Chequeo de salud**: `expo-doctor` → **21/21 OK**. Se retiraron `newArchEnabled` y `splash`
+  de [`app.json`](../app.json:1) por no ser válidos en el esquema de SDK 57.

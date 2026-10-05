@@ -6,13 +6,7 @@
     "orientation": "portrait",
     "scheme": "calc-calistenia",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#0A84FF"
-    },
     "plugins": [
       "expo-router",
       [
