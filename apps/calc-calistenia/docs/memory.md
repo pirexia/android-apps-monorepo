@@ -96,3 +96,20 @@
   (EAS `preview`/`production` o Android Studio).
 - **Chequeo de salud**: `expo-doctor` → **21/21 OK**. Se retiraron `newArchEnabled` y `splash`
   de [`app.json`](../app.json:1) por no ser válidos en el esquema de SDK 57.
+
+## Incidencia de build nativo — `react-native-google-mobile-ads` (resuelta)
+
+- **Síntoma**: `./gradlew assembleDebug` fallaba con «Cannot get property
+  'googleMobileAdsJson' on extra properties extension as it does not exist» y «does not
+  specify compileSdk» en el proyecto `:react-native-google-mobile-ads`.
+- **Causa raíz**: con Expo, el plugin solo escribe la propiedad Gradle `RNGMA_ANDROID_BACKEND`
+  si se le pasa la opción `androidSdk`. Sin ella, `build.gradle` (línea ~123) evalúa
+  `rootProject.ext.googleMobileAdsJson` sin `findProperty`; además `app-json.gradle` define por
+  error `googleAdsJson` (nombre distinto) en esa rama. El segundo error (compileSdk) es
+  consecuencia del primero.
+- **Arreglo**: añadir `"androidSdk": "classic"` a la config del plugin en [`app.json`](../app.json:10)
+  (y en la plantilla [`apps/_template/app.json`](../../_template/app.json:1)). Así el `?:` hace
+  cortocircuito y no evalúa `googleMobileAdsJson`.
+- **Verificación (test de regresión = el propio build)**: `npx expo prebuild -p android --clean`
+  + `./gradlew assembleDebug` → **BUILD SUCCESSFUL**; APK en
+  `android/app/build/outputs/apk/debug/app-debug.apk`.
