@@ -3,28 +3,64 @@ import { useColorScheme } from 'react-native';
 export interface ThemeColors {
   background: string;
   surface: string;
+  surfaceAlt: string;
   text: string;
   textSecondary: string;
+  placeholder: string;
   primary: string;
+  primaryPressed: string;
+  onPrimary: string;
+  primarySoft: string;
   border: string;
+  danger: string;
+  success: string;
 }
 
+/**
+ * Marca bicolor (tokens.md §1): tinta navy + acento naranja.
+ * Valores de referencia; los componentes consumen los colores semánticos vía `useTheme()`.
+ */
+export const brand = {
+  orange: '#FF6A3D',
+  orangeStrong: '#E8542B',
+  navy: '#0F1220',
+  white: '#FFFFFF',
+} as const;
+
+/**
+ * Paleta de marca "fitness" (bicolor: tinta navy + acento naranja).
+ * Plantilla canónica: cada app instanciada desde `_template` hereda esta paleta.
+ */
 export const palette: Record<'light' | 'dark', ThemeColors> = {
   light: {
-    background: '#FFFFFF',
-    surface: '#F2F2F7',
-    text: '#111111',
-    textSecondary: '#555555',
-    primary: '#0A84FF',
-    border: '#D1D1D6',
+    background: '#F4F5FB',
+    surface: '#FFFFFF',
+    surfaceAlt: '#E9EBF4',
+    text: '#151829',
+    textSecondary: '#5D6579',
+    placeholder: '#A0A7BA',
+    primary: '#FF6A3D',
+    primaryPressed: '#E8542B',
+    onPrimary: '#FFFFFF',
+    primarySoft: '#FFE9DF',
+    border: '#E4E7F0',
+    danger: '#D92D20',
+    success: '#12805C',
   },
   dark: {
-    background: '#111111',
-    surface: '#1C1C1E',
-    text: '#FFFFFF',
-    textSecondary: '#A1A1A6',
-    primary: '#0A84FF',
-    border: '#2C2C2E',
+    background: '#0F1220',
+    surface: '#191D30',
+    surfaceAlt: '#252A42',
+    text: '#F1F3FA',
+    textSecondary: '#9AA3BC',
+    placeholder: '#6B7590',
+    primary: '#FF7A4D',
+    primaryPressed: '#E8643A',
+    onPrimary: '#FFFFFF',
+    primarySoft: '#3A2822',
+    border: '#2B3150',
+    danger: '#FF6B60',
+    success: '#34D399',
   },
 };
 

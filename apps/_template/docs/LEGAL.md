@@ -8,9 +8,9 @@
 
 **Responsable del tratamiento**
 
-- Titular: <nombre o razón social>
-- NIF: <NIF>
-- Contacto: <email>
+- Marca / nombre comercial: <nombre comercial>
+- Contacto: <email dedicado>
+- No publicar nombre real, NIF ni domicilio salvo que un canal (Play/LSSI-CE) lo exija.
 
 **Datos que tratamos**
 
@@ -40,9 +40,8 @@ Los datos permanecen en tu dispositivo y se eliminan al desinstalar la aplicaci�
 
 ## 2. Aviso legal (LSSI-CE)
 
-- Titular: <nombre o razón social>
-- NIF: <NIF>
-- Contacto: <email>
+- Titular: <nombre comercial> (marca)
+- Contacto: <email dedicado>
 
 ## 3. Términos de uso (solo si aplica)
 

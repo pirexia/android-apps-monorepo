@@ -43,8 +43,9 @@ _app/
 │   └── settings.tsx  # ajustes + política de privacidad (INV-004)
 ├── src/
 │   ├── components/   # AdBanner y componentes
+│   │   └── ui/       # sistema de diseño: Button, Card, Field, ScreenHeader, SegmentedControl
 │   ├── lib/          # storage (AsyncStorage)
-│   └── theme/        # paleta Dark/Light
+│   └── theme/        # paleta Dark/Light (marca navy + naranja)
 ├── docs/             # REQUIREMENTS, PLAN, memory
 ├── app.json
 ├── tsconfig.json
