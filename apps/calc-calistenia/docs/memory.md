@@ -113,3 +113,47 @@
 - **Verificación (test de regresión = el propio build)**: `npx expo prebuild -p android --clean`
   + `./gradlew assembleDebug` → **BUILD SUCCESSFUL**; APK en
   `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+## Actualización — rediseño visual, icono y banner fijo
+
+- **Qué se ejecutó**:
+  - **Icono bicolor** (mancuernas, tinta navy `#0F1220` + naranja `#FF6A3D`) generado sin
+    dependencias externas para [`icon.png`](../assets/icon.png), [`adaptive-icon.png`](../assets/adaptive-icon.png),
+    [`splash-icon.png`](../assets/splash-icon.png), [`favicon.png`](../assets/favicon.png) y
+    [`feature-graphic.png`](../assets/feature-graphic.png). `backgroundColor` del icono adaptativo
+    actualizado a `#0F1220` en [`app.json`](../app.json:24).
+  - **Paleta moderna** en [`src/theme/colors.ts`](../src/theme/colors.ts:1): navy + naranja,
+    con `surfaceAlt`, `primarySoft`, `onPrimary`, `danger` y `success` (Dark/Light).
+  - **Sistema de diseño** en [`src/components/ui/`](../src/components/ui/Button.tsx:1):
+    [`Button`](../src/components/ui/Button.tsx:1) (primary/secondary/ghost),
+    [`Card`](../src/components/ui/Card.tsx:1), [`Field`](../src/components/ui/Field.tsx:1) y
+    [`SegmentedControl`](../src/components/ui/SegmentedControl.tsx:1).
+  - **Pantallas rediseñadas**: [`app/index.tsx`](../app/index.tsx:1) (tarjetas, hero de 1RM,
+    inputs "filled", selector kg/lb tipo píldora) y [`app/settings.tsx`](../app/settings.tsx:1).
+  - **Banner fijo** a pie de pantalla en [`app/index.tsx`](../app/index.tsx:301) (siempre visible,
+    fuera del scroll), manteniendo IDs de prueba (INV-002) y fallo silencioso (INV-003).
+  - **Plantilla** [`apps/_template`](../../_template/README.md:1) sincronizada con la misma paleta
+    y componentes UI para que las próximas apps hereden el diseño.
+- **Verificación**: `tsc --noEmit` limpio; `jest --ci` → **5 suites, 28 tests** en verde
+  (avisos `act(...)` no fatales, ya conocidos).
+- **Qué falló**: nada funcional. En `_template` aparecen errores de `tsc` porque es una carpeta
+  fuente sin `node_modules` propio (se resuelven al copiarla a una app real); no afecta al build.
+- **Siguiente paso**: validar el look & feel en dispositivo/emulador y, si procede, regenerar las
+  capturas para la ficha de Play.
+
+## Actualización — banner visible, placeholders de ejemplo y guía AdMob
+
+- **Banner**: se usa `LARGE_ANCHORED_ADAPTIVE_BANNER` (formato anclado más grande) en
+  [`AdBanner.tsx`](../src/components/AdBanner.tsx:17) y el pie reserva ~20 % de la pantalla con
+  `paddingBottom` del safe-area. [`app/_layout.tsx`](../app/_layout.tsx:1) envuelve el árbol en
+  `SafeAreaProvider` para que el anuncio **no quede bajo la barra de navegación de Android**.
+- **Placeholders**: los campos muestran `Ej. 80`, `Ej. 0`, `Ej. 10`, `Ej. 5` y un color propio
+  (`placeholder` en el tema) para dejar claro que el campo está vacío.
+- **Verificación**: `tsc --noEmit` limpio; `jest --ci` → **5 suites, 28 tests** en verde (se añadió
+  el mock de `react-native-safe-area-context` en [`index.test.tsx`](../__tests__/index.test.tsx:38)).
+- **APK release** regenerado (`android/app/build/outputs/apk/release/app-release.apk`, 90,8 MB);
+  se verificó que el bundle embebido contiene los cambios (`Ej.` y `LARGE_ANCHORED_ADAPTIVE_BANNER`).
+- **Docs nuevas (comunes al monorrepo)**: [`docs/ADMOB_SETUP.md`](../../../docs/ADMOB_SETUP.md:1)
+  (configurar AdMob e inyectar IDs reales) y [`docs/LEGAL_IDENTITY.md`](../../../docs/LEGAL_IDENTITY.md:1)
+  (identidad legal común: responsable, NIF, email, URL). **Pendiente**: aportar los valores reales
+  para sustituir los placeholders en [`LEGAL.md`](LEGAL.md:31) y [`privacy.tsx`](../app/privacy.tsx:6).

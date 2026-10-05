@@ -15,5 +15,6 @@ function bannerUnitId(): string {
  * La utilidad debe seguir funcionando aunque el anuncio no cargue.
  */
 export function AdBanner() {
-  return <BannerAd unitId={bannerUnitId()} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />;
+  // LARGE_ANCHORED_ADAPTIVE_BANNER es el formato anclado más grande (más visible en el pie).
+  return <BannerAd unitId={bannerUnitId()} size={BannerAdSize.LARGE_ANCHORED_ADAPTIVE_BANNER} />;
 }

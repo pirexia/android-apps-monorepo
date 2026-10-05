@@ -66,6 +66,9 @@ Decisiones estructurales:
 - [ ] 11. **Cierre DoD**: `memory.md` actualizado y estado `review` en [`CATALOG.md`](../../../CATALOG.md:24)
       y [`apps/README.md`](../../README.md:1); pendientes la verificación en modo avión (INV-003)
       y los bloqueos de publicación externos.
+- [x] 12. **Rediseño visual + icono**: paleta navy/naranja (Dark/Light), componentes UI
+      (`Button`, `Card`, `Field`, `SegmentedControl`), banner de anuncios a pie fijo e icono
+      bicolor de mancuernas. Sincronizado también en [`apps/_template`](../../_template/README.md:1).
 
 ## Notas de arquitectura
 

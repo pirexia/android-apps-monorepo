@@ -28,8 +28,9 @@ por el responsable.
 
 Última actualización: 2026-10-04
 
-1. **Responsable del tratamiento**: [NOMBRE O RAZÓN SOCIAL], con NIF [NIF] y correo de
-   contacto [EMAIL DE CONTACTO].
+1. **Responsable del tratamiento**: «<NOMBRE COMERCIAL>» (nombre comercial), con correo de
+   contacto <EMAIL DE CONTACTO>. Por decisión del titular no se publican nombre real, NIF ni
+   domicilio; se facilitan a la autoridad competente cuando proceda.
 
 2. **Datos que tratamos**: esta aplicación **no recoge ni almacena datos personales**. Los
    valores que introduces (peso corporal, lastre añadido, repeticiones y repeticiones
@@ -56,7 +57,7 @@ por el responsable.
 
 ### Aviso legal (LSSI-CE)
 
-- **Titular**: [NOMBRE O RAZÓN SOCIAL], NIF [NIF], contacto [EMAIL DE CONTACTO].
+- **Titular**: «<NOMBRE COMERCIAL>» (nombre comercial), contacto <EMAIL DE CONTACTO>.
 - **Finalidad**: utilidad de cálculo orientativo para entrenamiento de calistenia. Los
   resultados son estimaciones informativas y **no constituyen asesoramiento médico,
   nutricional ni deportivo profesional**; ante cualquier duda de salud, consulta a un

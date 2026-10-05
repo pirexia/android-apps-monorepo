@@ -1,7 +1,9 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '../src/components/ui/Button';
+import { Card } from '../src/components/ui/Card';
 import { useTheme } from '../src/theme/colors';
 
 function externalPolicyUrl(): string | null {
@@ -21,38 +23,23 @@ export default function SettingsScreen() {
         Versión {Constants.expoConfig?.version ?? '1.0.0'}
       </Text>
 
-      <Pressable
-        accessibilityRole="link"
-        onPress={() => router.push('/privacy')}
-        style={({ pressed }) => [
-          styles.button,
-          { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 },
-        ]}
-      >
-        <Text style={styles.buttonText}>Política de privacidad</Text>
-      </Pressable>
-
-      {externalUrl ? (
-        <Pressable
-          accessibilityRole="link"
-          onPress={() => void Linking.openURL(externalUrl)}
-          style={({ pressed }) => [styles.linkButton, { opacity: pressed ? 0.7 : 1 }]}
-        >
-          <Text style={[styles.linkText, { color: colors.primary }]}>
-            Ver versión web de la política
-          </Text>
-        </Pressable>
-      ) : null}
+      <Card>
+        <Button label="Política de privacidad" onPress={() => router.push('/privacy')} />
+        {externalUrl ? (
+          <Button
+            label="Ver versión web de la política"
+            variant="ghost"
+            accessibilityRole="link"
+            onPress={() => void Linking.openURL(externalUrl)}
+          />
+        ) : null}
+      </Card>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 24, gap: 16 },
-  title: { fontSize: 24, fontWeight: '700' },
+  container: { flex: 1, padding: 20, gap: 12 },
+  title: { fontSize: 24, fontWeight: '800' },
   version: { fontSize: 14 },
-  button: { borderRadius: 8, padding: 14, alignItems: 'center' },
-  buttonText: { color: '#FFFFFF', fontWeight: '600' },
-  linkButton: { padding: 8, alignItems: 'center' },
-  linkText: { fontSize: 15, fontWeight: '600' },
 });

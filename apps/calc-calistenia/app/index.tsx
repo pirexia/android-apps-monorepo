@@ -1,16 +1,14 @@
 import { Link } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import {
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AdBanner } from '../src/components/AdBanner';
 import { showInterstitial } from '../src/components/AdInterstitial';
+import { Button } from '../src/components/ui/Button';
+import { Card } from '../src/components/ui/Card';
+import { Field } from '../src/components/ui/Field';
+import { SegmentedControl } from '../src/components/ui/SegmentedControl';
 import {
   calculateVolume,
   equivalentAddedWeight,
@@ -23,7 +21,7 @@ import {
   type Unit,
 } from '../src/lib/calistenia';
 import { load, save } from '../src/lib/storage';
-import { useTheme } from '../src/theme/colors';
+import { useTheme, type ThemeColors } from '../src/theme/colors';
 
 interface Result {
   oneRepMax: number;
@@ -72,8 +70,27 @@ function computeResult(bw: number, aw: number, r: number, tr: number): Computati
   };
 }
 
+function ResultRow({
+  label,
+  value,
+  colors,
+}: {
+  label: string;
+  value: string;
+  colors: ThemeColors;
+}) {
+  return (
+    <View style={styles.resultRow}>
+      <Text style={[styles.resultLabel, { color: colors.textSecondary }]}>{label}</Text>
+      <Text style={[styles.resultValue, { color: colors.text }]}>{value}</Text>
+    </View>
+  );
+}
+
 export default function HomeScreen() {
   const colors = useTheme();
+  const insets = useSafeAreaInsets();
+  const { height: windowHeight } = useWindowDimensions();
   const [unit, setUnit] = useState<Unit>('kg');
   const [bodyWeight, setBodyWeight] = useState('');
   const [addedWeight, setAddedWeight] = useState('');
@@ -157,183 +174,160 @@ export default function HomeScreen() {
   const unitLabel = unit === 'kg' ? 'kg' : 'lb';
 
   return (
-    <ScrollView
-      style={[styles.container, { backgroundColor: colors.background }]}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
-      <Text style={[styles.title, { color: colors.text }]}>Calculadora de Calistenia</Text>
-      <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-        Estima tu 1RM, el volumen y el lastre equivalente. 100% offline.
-      </Text>
-
-      <View style={styles.unitRow}>
-        {(['kg', 'lb'] as const).map((u) => (
-          <Pressable
-            key={u}
-            accessibilityRole="button"
-            accessibilityState={{ selected: unit === u }}
-            onPress={() => changeUnit(u)}
-            style={[
-              styles.unitButton,
-              { borderColor: colors.border },
-              unit === u && { backgroundColor: colors.primary, borderColor: colors.primary },
-            ]}
-          >
-            <Text style={[styles.unitText, { color: unit === u ? '#FFFFFF' : colors.text }]}>
-              {u}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-
-      <View style={[styles.card, { backgroundColor: colors.surface }]}>
-        <Text style={[styles.label, { color: colors.text }]}>Peso corporal ({unitLabel})</Text>
-        <TextInput
-          value={bodyWeight}
-          onChangeText={setBodyWeight}
-          keyboardType="decimal-pad"
-          placeholder="80"
-          placeholderTextColor={colors.textSecondary}
-          accessibilityLabel="Peso corporal"
-          style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-        />
-
-        <Text style={[styles.label, { color: colors.text }]}>Lastre añadido ({unitLabel})</Text>
-        <TextInput
-          value={addedWeight}
-          onChangeText={setAddedWeight}
-          keyboardType="decimal-pad"
-          placeholder="0"
-          placeholderTextColor={colors.textSecondary}
-          accessibilityLabel="Lastre añadido"
-          style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-        />
-
-        <Text style={[styles.label, { color: colors.text }]}>Repeticiones realizadas</Text>
-        <TextInput
-          value={reps}
-          onChangeText={setReps}
-          keyboardType="number-pad"
-          placeholder="10"
-          placeholderTextColor={colors.textSecondary}
-          accessibilityLabel="Repeticiones realizadas"
-          style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-        />
-
-        <Text style={[styles.label, { color: colors.text }]}>Repeticiones objetivo</Text>
-        <TextInput
-          value={targetReps}
-          onChangeText={setTargetReps}
-          keyboardType="number-pad"
-          placeholder="5"
-          placeholderTextColor={colors.textSecondary}
-          accessibilityLabel="Repeticiones objetivo"
-          style={[styles.input, { color: colors.text, borderColor: colors.border }]}
-        />
-
-        <Pressable
-          accessibilityRole="button"
-          onPress={handleCalculate}
-          style={({ pressed }) => [
-            styles.calculateButton,
-            { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 },
-          ]}
-        >
-          <Text style={styles.calculateText}>Calcular</Text>
-        </Pressable>
-
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-      </View>
-
-      {result ? (
-        <View style={[styles.card, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.cardTitle, { color: colors.text }]}>Resultados</Text>
-          <View style={styles.resultRow}>
-            <Text style={[styles.resultLabel, { color: colors.textSecondary }]}>
-              1RM estimado
-            </Text>
-            <Text style={[styles.resultValue, { color: colors.text }]}>
-              {result.oneRepMax.toFixed(1)} {unitLabel}
-            </Text>
-          </View>
-          <View style={styles.resultRow}>
-            <Text style={[styles.resultLabel, { color: colors.textSecondary }]}>
-              Volumen de la serie
-            </Text>
-            <Text style={[styles.resultValue, { color: colors.text }]}>
-              {result.volume.toFixed(1)} {unitLabel}
-            </Text>
-          </View>
-          <View style={styles.resultRow}>
-            <Text style={[styles.resultLabel, { color: colors.textSecondary }]}>
-              Carga equivalente ({result.targetReps} reps)
-            </Text>
-            <Text style={[styles.resultValue, { color: colors.text }]}>
-              {result.equivalentLoad.toFixed(1)} {unitLabel}
-            </Text>
-          </View>
-          <View style={styles.resultRow}>
-            <Text style={[styles.resultLabel, { color: colors.textSecondary }]}>
-              Lastre equivalente
-            </Text>
-            <Text style={[styles.resultValue, { color: colors.text }]}>
-              {result.requiresNoAddedWeight
-                ? 'Sin lastre adicional'
-                : `${result.equivalentAddedWeight.toFixed(1)} ${unitLabel}`}
-            </Text>
-          </View>
+    <View style={[styles.root, { backgroundColor: colors.background }]}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={[styles.title, { color: colors.text }]}>
+            Calculadora de Calistenia
+          </Text>
+          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+            Estima tu 1RM, el volumen y el lastre equivalente. 100% offline.
+          </Text>
         </View>
-      ) : null}
 
-      <Link href="/settings" style={[styles.link, { color: colors.primary }]}>
-        Abrir ajustes
-      </Link>
+        <Card>
+          <SegmentedControl<Unit>
+            options={['kg', 'lb']}
+            value={unit}
+            onChange={changeUnit}
+          />
 
-      <AdBanner />
-    </ScrollView>
+          <Field
+            label={`Peso corporal (${unitLabel})`}
+            value={bodyWeight}
+            onChangeText={setBodyWeight}
+            keyboardType="decimal-pad"
+            placeholder="Ej. 80"
+            accessibilityLabel="Peso corporal"
+          />
+
+          <Field
+            label={`Lastre añadido (${unitLabel})`}
+            value={addedWeight}
+            onChangeText={setAddedWeight}
+            keyboardType="decimal-pad"
+            placeholder="Ej. 0"
+            accessibilityLabel="Lastre añadido"
+          />
+
+          <Field
+            label="Repeticiones realizadas"
+            value={reps}
+            onChangeText={setReps}
+            keyboardType="number-pad"
+            placeholder="Ej. 10"
+            accessibilityLabel="Repeticiones realizadas"
+          />
+
+          <Field
+            label="Repeticiones objetivo"
+            value={targetReps}
+            onChangeText={setTargetReps}
+            keyboardType="number-pad"
+            placeholder="Ej. 5"
+            accessibilityLabel="Repeticiones objetivo"
+          />
+
+          {error ? (
+            <Text style={[styles.error, { color: colors.danger }]}>{error}</Text>
+          ) : null}
+
+          <Button label="Calcular" onPress={handleCalculate} />
+        </Card>
+
+        {result ? (
+          <Card>
+            <Text style={[styles.cardTitle, { color: colors.text }]}>Resultados</Text>
+
+            <View style={[styles.hero, { backgroundColor: colors.primarySoft }]}>
+              <Text style={[styles.heroLabel, { color: colors.textSecondary }]}>
+                1RM estimado
+              </Text>
+              <Text style={[styles.heroValue, { color: colors.primary }]}>
+                {result.oneRepMax.toFixed(1)} {unitLabel}
+              </Text>
+            </View>
+
+            <ResultRow
+              label="Volumen de la serie"
+              value={`${result.volume.toFixed(1)} ${unitLabel}`}
+              colors={colors}
+            />
+            <ResultRow
+              label={`Carga equivalente (${result.targetReps} reps)`}
+              value={`${result.equivalentLoad.toFixed(1)} ${unitLabel}`}
+              colors={colors}
+            />
+            <ResultRow
+              label="Lastre equivalente"
+              value={
+                result.requiresNoAddedWeight
+                  ? 'Sin lastre adicional'
+                  : `${result.equivalentAddedWeight.toFixed(1)} ${unitLabel}`
+              }
+              colors={colors}
+            />
+          </Card>
+        ) : null}
+
+        <Link href="/settings" style={[styles.link, { color: colors.primary }]}>
+          Abrir ajustes
+        </Link>
+      </ScrollView>
+
+      <View
+        style={[
+          styles.adContainer,
+          {
+            backgroundColor: colors.background,
+            borderTopColor: colors.border,
+            minHeight: Math.round(windowHeight * 0.2),
+            paddingBottom: Math.max(insets.bottom, 12),
+          },
+        ]}
+      >
+        <AdBanner />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { padding: 24, gap: 16, paddingBottom: 32 },
-  title: { fontSize: 28, fontWeight: '700' },
-  subtitle: { fontSize: 16, textAlign: 'left' },
-  unitRow: { flexDirection: 'row', gap: 12 },
-  unitButton: {
-    flex: 1,
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: 10,
+  root: { flex: 1 },
+  scroll: { flex: 1 },
+  content: { padding: 20, gap: 16, paddingBottom: 24 },
+  header: { gap: 4, paddingTop: 4 },
+  title: { fontSize: 26, fontWeight: '800' },
+  subtitle: { fontSize: 15, lineHeight: 21 },
+  cardTitle: { fontSize: 18, fontWeight: '700' },
+  error: { fontSize: 14, fontWeight: '600' },
+  hero: {
+    borderRadius: 16,
+    padding: 16,
+    gap: 2,
     alignItems: 'center',
   },
-  unitText: { fontSize: 16, fontWeight: '600', textTransform: 'uppercase' },
-  card: { borderRadius: 12, padding: 16, gap: 8 },
-  cardTitle: { fontSize: 18, fontWeight: '700', marginBottom: 4 },
-  label: { fontSize: 14, fontWeight: '600', marginTop: 4 },
-  input: {
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-  },
-  calculateButton: {
-    borderRadius: 8,
-    padding: 14,
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  calculateText: { color: '#FFFFFF', fontWeight: '700', fontSize: 16 },
-  error: { color: '#FF453A', fontSize: 14, marginTop: 4 },
+  heroLabel: { fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.4 },
+  heroValue: { fontSize: 32, fontWeight: '800' },
   resultRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 4,
+    paddingVertical: 6,
   },
   resultLabel: { fontSize: 14 },
   resultValue: { fontSize: 16, fontWeight: '700' },
-  link: { fontSize: 16, fontWeight: '600' },
+  link: { fontSize: 16, fontWeight: '600', textAlign: 'center', paddingVertical: 4 },
+  adContainer: {
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: 8,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

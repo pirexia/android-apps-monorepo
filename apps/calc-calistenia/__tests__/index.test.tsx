@@ -22,7 +22,10 @@ jest.mock('react-native-google-mobile-ads', () => {
   return {
     __esModule: true,
     BannerAd: () => React.createElement(View, null),
-    BannerAdSize: { ANCHORED_ADAPTIVE_BANNER: 'banner' },
+    BannerAdSize: {
+      ANCHORED_ADAPTIVE_BANNER: 'banner',
+      LARGE_ANCHORED_ADAPTIVE_BANNER: 'largeBanner',
+    },
     InterstitialAd: {
       createForAdRequest: jest.fn(() => ({
         loaded: false,
@@ -34,6 +37,10 @@ jest.mock('react-native-google-mobile-ads', () => {
     AdEventType: { CLOSED: 'closed', LOADED: 'loaded', ERROR: 'error' },
   };
 });
+
+jest.mock('react-native-safe-area-context', () => ({
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
 
 describe('HomeScreen (HU-001 … HU-004)', () => {
   test('HU-001/HU-002 · CA-001, CA-003: camino feliz desde la UI', () => {

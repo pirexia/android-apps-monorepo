@@ -3,7 +3,8 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 import { useTheme } from '../src/theme/colors';
 
 const LAST_UPDATED = '2026-10-04';
-const CONTACT = '[EMAIL DE CONTACTO]';
+const BRAND_NAME = '<NOMBRE COMERCIAL>';
+const CONTACT = '<EMAIL DE CONTACTO>';
 
 /**
  * Política de privacidad dentro de la app (INV-004). Mismo contenido que
@@ -25,7 +26,8 @@ export default function PrivacyScreen() {
 
       <Text style={[styles.heading, { color: colors.text }]}>1. Responsable</Text>
       <Text style={[styles.paragraph, { color: colors.textSecondary }]}>
-        [NOMBRE O RAZÓN SOCIAL], NIF [NIF], correo {CONTACT}.
+        «{BRAND_NAME}» (nombre comercial). Correo de contacto: {CONTACT}. No publicamos datos
+        identificativos adicionales del titular.
       </Text>
 
       <Text style={[styles.heading, { color: colors.text }]}>2. Datos que tratamos</Text>

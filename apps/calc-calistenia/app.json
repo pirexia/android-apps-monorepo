@@ -23,7 +23,7 @@
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0A84FF"
+        "backgroundColor": "#0F1220"
       }
     },
     "ios": {
