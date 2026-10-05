@@ -61,15 +61,17 @@ Decisiones estructurales:
       `legal-reviewer` → `store-reviewer` → `doc-reviewer`.
 - [x] 9. **Persistencia del último cálculo** (HU-005, CA-010): guardar en la clave `lastInput`
       y restaurar al montar la pantalla.
-- [ ] 10. **Cierre DoD**: [`memory.md`](memory.md) actualizado y estado `review` reflejado en
-      [`CATALOG.md`](../../../CATALOG.md:24) y [`apps/README.md`](../../README.md:1); pendientes
-      la verificación en modo avión (INV-003) y los bloqueos de publicación.
+- [x] 10. **Política de privacidad in-app** ([`app/privacy.tsx`](../app/privacy.tsx:1)) enlazada
+      desde ajustes y URL web opcional vía `expo.extra.privacyPolicyUrl` (INV-004 autónoma).
+- [ ] 11. **Cierre DoD**: `memory.md` actualizado y estado `review` en [`CATALOG.md`](../../../CATALOG.md:24)
+      y [`apps/README.md`](../../README.md:1); pendientes la verificación en modo avión (INV-003)
+      y los bloqueos de publicación externos.
 
 ## Notas de arquitectura
 
-- Rutas Expo Router: [`app/index.tsx`](../../_template/app/index.tsx:1) (utilidad) y
-  [`app/settings.tsx`](../../_template/app/settings.tsx:1) (ajustes), apiladas en
-  [`app/_layout.tsx`](../../_template/app/_layout.tsx:1).
+- Rutas Expo Router: [`app/index.tsx`](../app/index.tsx:1) (utilidad),
+  [`app/settings.tsx`](../app/settings.tsx:1) (ajustes) y [`app/privacy.tsx`](../app/privacy.tsx:1)
+  (política de privacidad in-app, INV-004), apiladas en [`app/_layout.tsx`](../app/_layout.tsx:1).
 - Paleta adaptativa Dark/Light vía [`useTheme()`](../../_template/src/theme/colors.ts:31).
 - **Persistencia del último cálculo**: clave `lastInput` en AsyncStorage, reutilizando
   [`storage.ts`](../../_template/src/lib/storage.ts:1); se restaura al montar la pantalla (INV-007).
@@ -81,10 +83,11 @@ Decisiones estructurales:
 ## Definición de Hecho (DoD)
 
 - [x] Funcionalidad implementada en `apps/calc-calistenia` con TypeScript estricto y `StyleSheet`.
-- [x] Tests unitarios pasando (4 suites, 27 tests).
+- [x] Tests unitarios pasando (5 suites, 28 tests).
 - [x] `memory.md`, `PLAN.md` y `REQUIREMENTS.md` actualizados.
-- [x] Pantalla de ajustes con política de privacidad (INV-004) — URL real pendiente (issue 1).
+- [x] Pantalla de ajustes con política de privacidad in-app (INV-004).
 - [x] Validación de seguridad superada (sin permisos extra, IDs de AdMob de prueba).
-- [x] Cumplimiento legal revisado (INV-008) — identidad/URL pendientes (issue 1).
-- [ ] Revisión de publicación (Play Store) superada — bloqueada por issues 1 y 2.
-- [ ] App verificada en modo avión (INV-003).
+- [x] Cumplimiento legal revisado (INV-008) — identidad/URL de ficha pendientes (issue 1).
+- [x] App empaquetada para Android (`expo export`) sin errores.
+- [ ] Revisión de publicación (Play Store) superada — bloqueada por issues 1 y 2 (externas).
+- [ ] App verificada en modo avión (INV-003) en dispositivo.

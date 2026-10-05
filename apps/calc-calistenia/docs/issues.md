@@ -4,7 +4,7 @@ Registro de hallazgos de revisión y su estado. Norma: skill `issue-tracking`.
 
 | ID | Severidad | Título | Origen | Estado | Enlace |
 | --- | --------- | ------ | ------ | ------ | ------ |
-| 1 | CRITICO | Política de privacidad no publicada (URL e identidad placeholder) | security-reviewer / store-reviewer | en-progreso | texto legal listo; faltan identidad + URL pública |
+| 1 | CRITICO | Política de privacidad: identidad y URL de ficha pendientes | security-reviewer / store-reviewer | en-progreso | política in-app lista (INV-004); faltan identidad + URL para la ficha de Play |
 | 2 | CRITICO | Faltan recursos de ficha (icono, feature graphic y capturas) | store-reviewer | en-progreso | assets de marcador + config; falta diseño final y capturas |
 | 3 | ALTO | IDs de AdMob reales no configurados (test IDs en el código) | store-reviewer | en-progreso | IDs configurables vía `expo.extra.admob`; falta cuenta AdMob |
 | 4 | ALTO | Sin AAB firmado ni `versionCode`/`versionName` de release | store-reviewer | en-progreso | `versionCode` + `eas.json`; falta build del AAB |
@@ -27,10 +27,10 @@ Registro de hallazgos de revisión y su estado. Norma: skill `issue-tracking`.
 
 ## Detalle
 
-### 1 · CRITICO · Política de privacidad no publicada (URL e identidad placeholder)
+### 1 · CRITICO · Política de privacidad: identidad y URL de ficha pendientes
 
-- **Evidencia**: [`app/settings.tsx`](../app/settings.tsx:7) usa `https://example.com/privacy`; [`LEGAL.md`](LEGAL.md:30) tiene `[NOMBRE O RAZÓN SOCIAL]`, `[NIF]`, `[EMAIL DE CONTACTO]`.
-- **Corrección**: completar identidad, publicar [`LEGAL.md`](LEGAL.md:1) en una URL y fijarla en `settings.tsx`.
+- **Estado app-side**: resuelto — política in-app en [`app/privacy.tsx`](../app/privacy.tsx:1), enlazada desde [`app/settings.tsx`](../app/settings.tsx:1) (INV-004); URL web opcional vía `expo.extra.privacyPolicyUrl`.
+- **Pendiente externo**: completar `[NOMBRE O RAZÓN SOCIAL]`, `[NIF]`, `[EMAIL DE CONTACTO]` en [`LEGAL.md`](LEGAL.md:30) y [`privacy.tsx`](../app/privacy.tsx:1), y publicar la política en una URL para la ficha de Play.
 
 ### 2 · CRITICO · Faltan recursos de ficha (icono, feature graphic y capturas)
 

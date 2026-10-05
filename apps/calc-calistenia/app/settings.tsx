@@ -1,13 +1,18 @@
 import Constants from 'expo-constants';
+import { useRouter } from 'expo-router';
 import { Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useTheme } from '../src/theme/colors';
 
-// TODO: reemplazar por la URL real de la política de privacidad (legal-reviewer).
-const PRIVACY_POLICY_URL = 'https://example.com/privacy';
+function externalPolicyUrl(): string | null {
+  const configured = Constants.expoConfig?.extra?.privacyPolicyUrl;
+  return typeof configured === 'string' && configured.length > 0 ? configured : null;
+}
 
 export default function SettingsScreen() {
   const colors = useTheme();
+  const router = useRouter();
+  const externalUrl = externalPolicyUrl();
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
@@ -15,9 +20,10 @@ export default function SettingsScreen() {
       <Text style={[styles.version, { color: colors.textSecondary }]}>
         Versión {Constants.expoConfig?.version ?? '1.0.0'}
       </Text>
+
       <Pressable
         accessibilityRole="link"
-        onPress={() => void Linking.openURL(PRIVACY_POLICY_URL)}
+        onPress={() => router.push('/privacy')}
         style={({ pressed }) => [
           styles.button,
           { backgroundColor: colors.primary, opacity: pressed ? 0.8 : 1 },
@@ -25,6 +31,18 @@ export default function SettingsScreen() {
       >
         <Text style={styles.buttonText}>Política de privacidad</Text>
       </Pressable>
+
+      {externalUrl ? (
+        <Pressable
+          accessibilityRole="link"
+          onPress={() => void Linking.openURL(externalUrl)}
+          style={({ pressed }) => [styles.linkButton, { opacity: pressed ? 0.7 : 1 }]}
+        >
+          <Text style={[styles.linkText, { color: colors.primary }]}>
+            Ver versión web de la política
+          </Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -35,4 +53,6 @@ const styles = StyleSheet.create({
   version: { fontSize: 14 },
   button: { borderRadius: 8, padding: 14, alignItems: 'center' },
   buttonText: { color: '#FFFFFF', fontWeight: '600' },
+  linkButton: { padding: 8, alignItems: 'center' },
+  linkText: { fontSize: 15, fontWeight: '600' },
 });

@@ -83,3 +83,14 @@
 - **Pendientes externos** (no resolubles en repo): identidad/NIF/email y publicación de la
   política en URL pública (issue 1), IDs reales de AdMob (cuenta AdMob), ficha + Data Safety en
   Play Console (issues 5, 6), capturas de pantalla y verificación en modo avión en dispositivo.
+
+## Actualización — cierre: política de privacidad in-app y empaquetado
+
+- **Política de privacidad in-app** (INV-004): nueva pantalla [`privacy.tsx`](../app/privacy.tsx:1)
+  enlazada desde [`settings.tsx`](../app/settings.tsx:1); la app ya **no depende de una URL
+  externa**. La versión web (para la ficha de Play) es opcional vía `expo.extra.privacyPolicyUrl`.
+- **Empaquetado validado**: `npx expo export --platform android` → bundle Hermes correcto
+  (1375 módulos, sin errores).
+- **Verificación**: `tsc --noEmit` limpio; `jest` → **5 suites, 28 tests** en verde.
+- **Entorno de build**: sin Java/Android SDK/gradle → el APK/AAB se genera fuera
+  (EAS `preview`/`production` o Android Studio).

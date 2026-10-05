@@ -26,6 +26,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" options={{ title: 'Calculadora de Calistenia' }} />
         <Stack.Screen name="settings" options={{ title: 'Ajustes' }} />
+        <Stack.Screen name="privacy" options={{ title: 'Política de privacidad' }} />
       </Stack>
     </>
   );
