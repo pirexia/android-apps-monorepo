@@ -21,7 +21,7 @@ de *Tools & Utilities* son de las que mejor monetizan con AdMob.
 
 | # | Slug | Nombre | Categoría | Monetización | Complejidad | Estado | Versión |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | `calc-calistenia` | Calculadora de Calistenia | Fitness | Banner+Interstitial | Baja | idea | - |
+| 1 | `calc-calistenia` | Calculadora de Calistenia | Fitness | Banner+Interstitial | Baja | review | - |
 | 2 | `one-rep-max` | Calculadora de 1RM | Fitness | Banner | Baja | idea | - |
 | 3 | `imc-calc` | Calculadora de IMC | Salud | Banner+Interstitial | Baja | idea | - |
 | 4 | `macros-calc` | Calculadora de Macronutrientes | Salud | Banner+Interstitial | Baja | idea | - |

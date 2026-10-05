@@ -10,6 +10,7 @@ Cada app vive en `apps/<slug>` y es independiente: `package.json`, `app.json`,
 
 | App | Slug | Estado | Versión | Documentación |
 | --- | ---- | ------ | ------- | ------------- |
+| Calculadora de Calistenia | `calc-calistenia` | review | - | [`REQUIREMENTS.md`](calc-calistenia/docs/REQUIREMENTS.md) · [`PLAN.md`](calc-calistenia/docs/PLAN.md) · [`memory.md`](calc-calistenia/docs/memory.md) |
 | Plantilla canónica | `_template` | plantilla | - | [`REQUIREMENTS.md`](_template/docs/REQUIREMENTS.md) · [`PLAN.md`](_template/docs/PLAN.md) · [`memory.md`](_template/docs/memory.md) |
 
 ## Estados válidos
