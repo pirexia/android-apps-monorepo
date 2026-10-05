@@ -58,10 +58,10 @@ Definiciones (unidad-agnósticas: se calcula en la unidad seleccionada, kg o lb)
 - [ ] CA-003 (lastre equivalente): **Dado** los datos del CA-001 y repeticiones objetivo
       5, **cuando** calculo, **entonces** `Carga equivalente = 91.4 kg` y
       `Lastre equivalente = 11.4 kg` (106.666… / (1 + 5/30) = 91.428… − 80 = 11.428…).
-- [ ] CA-004 (lastre equivalente acotado a 0): **Dado** peso corporal 80.0 kg, 1RM 90.0 kg
-      y repeticiones objetivo 10, **cuando** calculo, **entonces**
-      `Lastre equivalente = 0.0 kg` y se indica "sin lastre adicional" (el peso corporal
-      ya supera la carga equivalente: 90 / (1 + 10/30) = 67.5 < 80).
+- [ ] CA-004 (lastre equivalente acotado a 0): **Dado** peso corporal 80.0 kg, lastre 0.0 kg
+      y 1 repetición (1RM = carga = 80.0 kg) con repeticiones objetivo 10, **cuando** calculo,
+      **entonces** `Lastre equivalente = 0.0 kg` y se indica "sin lastre adicional"
+      (carga equivalente = 80 / (1 + 10/30) = 60.0 < 80).
 - [ ] CA-005 (unidades en libras): **Dado** que selecciono libras e introduzco 176.4 lb,
       0.0 lb y 10 repeticiones, **cuando** calculo, **entonces** `1RM = 235.2 lb`
       (176.4 × (1 + 10/30) = 235.2) y `Volumen = 1764.0 lb`.

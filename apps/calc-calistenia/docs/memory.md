@@ -66,3 +66,20 @@
   (actualización asíncrona del `useEffect` al restaurar el estado).
 - **Siguiente paso**: `legal-reviewer` ajusta [`LEGAL.md`](LEGAL.md) para reflejar que los
   valores del último cálculo se guardan localmente (y no se transmiten).
+
+## Actualización — cierre de hallazgos de revisión
+
+- **Docs sincronizadas** (issues 8, 9, 10, 12, 14): [`CATALOG.md`](../../../CATALOG.md:24)
+  (estado `review`), [`apps/README.md`](../../README.md:13),
+  [`SECURITY_REVIEW.md`](SECURITY_REVIEW.md:1), [`issues.md`](issues.md:1),
+  [`PLAN.md`](PLAN.md:8) (estado, tareas y Q-3) y CA-004 de [`REQUIREMENTS.md`](REQUIREMENTS.md:59).
+- **Config de publicación** (issues 2, 4): assets de marcador en `assets/` (`icon`,
+  `adaptive-icon`, `splash-icon`, `favicon`, `feature-graphic`); [`app.json`](../app.json:1)
+  con `icon`/`splash`, `android.versionCode` e `ios.buildNumber`; y [`eas.json`](../eas.json:1)
+  con perfiles development/preview/production.
+- **Anuncios** (issues 3, 7): IDs configurables vía `expo.extra.admob` (test IDs por defecto,
+  INV-002); intersticial alineado con el banner (sin forzar no personalizados; gestiona UMP).
+- **Verificación**: `npx expo config` válido; `tsc --noEmit` limpio; `jest` → 4 suites, 27 tests.
+- **Pendientes externos** (no resolubles en repo): identidad/NIF/email y publicación de la
+  política en URL pública (issue 1), IDs reales de AdMob (cuenta AdMob), ficha + Data Safety en
+  Play Console (issues 5, 6), capturas de pantalla y verificación en modo avión en dispositivo.

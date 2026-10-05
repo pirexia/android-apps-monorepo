@@ -7,6 +7,12 @@
     "scheme": "calc-calistenia",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A84FF"
+    },
     "plugins": [
       "expo-router",
       [
@@ -18,7 +24,23 @@
       ]
     ],
     "android": {
-      "package": "com.calccalistenia.app"
+      "package": "com.calccalistenia.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0A84FF"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.calccalistenia.app",
+      "buildNumber": "1",
+      "supportsTablet": false
+    },
+    "extra": {
+      "admob": {
+        "bannerUnitId": "ca-app-pub-3940256099942544/6300978111",
+        "interstitialUnitId": "ca-app-pub-3940256099942544/1033173712"
+      }
     }
   }
 }

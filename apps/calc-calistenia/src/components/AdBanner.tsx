@@ -1,13 +1,19 @@
+import Constants from 'expo-constants';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 
-// INV-002: en desarrollo solo IDs de prueba. En producción, obtener el ID real
-// desde la configuración de la app (p. ej. Constants.expoConfig?.extra?.adUnitBanner).
+// INV-002: por defecto se usa el ID de banner de PRUEBA (desarrollo). En producción, define
+// `expo.extra.admob.bannerUnitId` con el ID real sin tocar el código.
 const TEST_BANNER_ID = 'ca-app-pub-3940256099942544/6300978111';
+
+function bannerUnitId(): string {
+  const configured = Constants.expoConfig?.extra?.admob?.bannerUnitId;
+  return typeof configured === 'string' && configured.length > 0 ? configured : TEST_BANNER_ID;
+}
 
 /**
  * Banner que falla en silencio cuando no hay red (INV-003).
  * La utilidad debe seguir funcionando aunque el anuncio no cargue.
  */
 export function AdBanner() {
-  return <BannerAd unitId={TEST_BANNER_ID} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />;
+  return <BannerAd unitId={bannerUnitId()} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />;
 }

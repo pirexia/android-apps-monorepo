@@ -4,20 +4,20 @@ Registro de hallazgos de revisión y su estado. Norma: skill `issue-tracking`.
 
 | ID | Severidad | Título | Origen | Estado | Enlace |
 | --- | --------- | ------ | ------ | ------ | ------ |
-| 1 | CRITICO | Política de privacidad no publicada (URL e identidad placeholder) | security-reviewer / store-reviewer | abierto | pendiente de crear en GitHub |
-| 2 | CRITICO | Faltan recursos de ficha (icono, feature graphic y capturas) | store-reviewer | abierto | pendiente de crear en GitHub |
-| 3 | ALTO | IDs de AdMob reales no configurados (test IDs en el código) | store-reviewer | abierto | pendiente de crear en GitHub |
-| 4 | ALTO | Sin AAB firmado ni `versionCode`/`versionName` de release | store-reviewer | abierto | pendiente de crear en GitHub |
+| 1 | CRITICO | Política de privacidad no publicada (URL e identidad placeholder) | security-reviewer / store-reviewer | en-progreso | texto legal listo; faltan identidad + URL pública |
+| 2 | CRITICO | Faltan recursos de ficha (icono, feature graphic y capturas) | store-reviewer | en-progreso | assets de marcador + config; falta diseño final y capturas |
+| 3 | ALTO | IDs de AdMob reales no configurados (test IDs en el código) | store-reviewer | en-progreso | IDs configurables vía `expo.extra.admob`; falta cuenta AdMob |
+| 4 | ALTO | Sin AAB firmado ni `versionCode`/`versionName` de release | store-reviewer | en-progreso | `versionCode` + `eas.json`; falta build del AAB |
 | 5 | MEDIO | Ficha de Play Console sin definir (título, descripciones, categoría, IARC, público, email) | store-reviewer | abierto | pendiente de crear en GitHub |
 | 6 | MEDIO | Data Safety sin declarar | store-reviewer | abierto | pendiente de crear en GitHub |
-| 7 | BAJO | El intersticial fuerza anuncios no personalizados mientras el banner no | legal-reviewer | abierto | pendiente de crear en GitHub |
-| 8 | MEDIO | `PLAN.md` desactualizado (estado, tareas y Q-3) | doc-reviewer | abierto | pendiente de crear en GitHub |
+| 7 | BAJO | El intersticial fuerza anuncios no personalizados mientras el banner no | legal-reviewer | corregido | implementer |
+| 8 | MEDIO | `PLAN.md` desactualizado (estado, tareas y Q-3) | doc-reviewer | corregido | architect |
 | 9 | MEDIO | `CATALOG.md` mantenía la app en estado `idea` | doc-reviewer | corregido | janitor |
 | 10 | MEDIO | `apps/README.md` no listaba `calc-calistenia` | doc-reviewer | corregido | janitor |
 | 11 | MEDIO | `issues.md` vacío pese a hallazgos | doc-reviewer | corregido | janitor |
 | 12 | BAJO | Faltaba `SECURITY_REVIEW.md` | doc-reviewer | corregido | janitor |
-| 13 | BAJO | `memory.md` no refleja el estado real de las revisiones | doc-reviewer | abierto | pendiente |
-| 14 | BAJO | CA-004 se expresa con una entrada inexistente ("1RM 90 kg") | doc-reviewer | abierto | pendiente |
+| 13 | BAJO | `memory.md` no refleja el estado real de las revisiones | doc-reviewer | corregido | implementer |
+| 14 | BAJO | CA-004 se expresa con una entrada inexistente ("1RM 90 kg") | doc-reviewer | corregido | spec-writer |
 
 ## Leyenda
 
