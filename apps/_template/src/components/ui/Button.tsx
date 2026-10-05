@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { useTheme } from '../../theme/colors';
+import { radius, shadow, spacing, typography } from '../../theme/tokens';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost';
 
@@ -19,7 +20,10 @@ interface ButtonProps {
 }
 
 /**
- * Botón reutilizable con variantes. Uso en ajustes, CTAs y navegación.
+ * Botón moderno "soft": formas redondeadas (radio `lg`) y alto ≥ 52.
+ * - primary: relleno pastel `primary` + tinta `onPrimary`.
+ * - secondary: relleno `primarySoft` + tinta `primaryText`.
+ * - ghost: fondo transparente + borde `border` + tinta `primaryText`.
  */
 export function Button({
   label,
@@ -37,7 +41,14 @@ export function Button({
         ? colors.primarySoft
         : 'transparent';
 
-  const borderColor = variant === 'ghost' ? colors.border : 'transparent';
+  const borderColor =
+    variant === 'primary'
+      ? colors.primary
+      : variant === 'secondary'
+        ? colors.primaryBorder
+        : colors.border;
+
+  const labelColor = variant === 'primary' ? colors.onPrimary : colors.primaryText;
 
   return (
     <Pressable
@@ -45,32 +56,27 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => [
         styles.base,
+        variant === 'primary' && shadow.card,
         { backgroundColor, borderColor },
         pressed && styles.pressed,
         style,
       ]}
     >
-      <Text
-        style={[
-          styles.label,
-          { color: variant === 'primary' ? colors.onPrimary : colors.primary },
-        ]}
-      >
-        {label}
-      </Text>
+      <Text style={[styles.label, { color: labelColor }]}>{label}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   base: {
-    borderRadius: 14,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    minHeight: 52,
+    paddingVertical: spacing.lg,
+    paddingHorizontal: spacing.xl,
     alignItems: 'center',
     justifyContent: 'center',
   },
   pressed: { opacity: 0.85 },
-  label: { fontSize: 16, fontWeight: '700' },
+  label: { ...typography.bodyStrong },
 });

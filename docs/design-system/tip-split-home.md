@@ -15,7 +15,7 @@ y sin recoger datos personales.
 ## 2. Jerarquía (de arriba a abajo)
 
 1. **Título** de pantalla (`title`).
-2. **Hero de resultado**: cuánto paga **cada persona** (`display`, fondo `primarySoft`).
+2. **Hero de resultado**: cuánto paga **cada persona** (`display` en `primaryText`, fondo `primarySoft`).
 3. **Tarjeta de entradas**: importe total, número de personas, propina (%) y redondeo.
 4. **Tarjeta de desglose**: propina, total con propina, por persona.
 5. **Enlace** a Ajustes (`primary`).
@@ -30,7 +30,7 @@ y sin recoger datos personales.
 │                                     │
 │  ┌───────────────────────────────┐  │
 │  │  CADA PERSONA PAGA            │  │  hero: surface=primarySoft, radio lg
-│  │  23,50 €                      │  │  label (13/600) + display (32/800, primary)
+│  │  23,50 €                      │  │  label (13/600) + display (32/800, primaryText)
 │  └───────────────────────────────┘  │
 │                                     │
 │  ┌───────────────────────────────┐  │
@@ -41,7 +41,7 @@ y sin recoger datos personales.
 │  │  Propina                      │  │
 │  │  [ 0% | 5% | 10% | 15% ]      │  │  SegmentedControl (surfaceAlt/surface)
 │  │                               │  │
-│  │  [        Calcular        ]   │  │  Button primary (radio md, alto 48)
+│  │  [        Calcular        ]   │  │  Button primary (radio lg, alto ≥ 52)
 │  └───────────────────────────────┘  │
 │                                     │
 │  ┌───────────────────────────────┐  │
@@ -62,12 +62,12 @@ y sin recoger datos personales.
 | Elemento | Componente | Tokens |
 | --- | --- | --- |
 | Fondo | — | `background` |
-| Hero | `View` | `primarySoft`, radio `lg`, label `textSecondary`, valor `primary`/`display` |
+| Hero | `View` | `primarySoft`, radio `lg`, label `textSecondary`, valor `primaryText`/`display` |
 | Tarjetas | `Card` | `surface`, `border`, radio `lg`, sombra `card` |
-| Campos | `Field` | `surfaceAlt`, `text`, `placeholder` (ejemplos con `Ej. `), radio `md` |
+| Campos | `Field` | `surfaceAlt` + borde `border`, `text`, `placeholder` (ejemplos con `Ej. `), radio `md` |
 | Propina | `SegmentedControl` | `surfaceAlt` / `surface`, activo `primary` |
-| Botón | `Button` (primary) | `primary`, `onPrimary`, radio `md`, alto ≥ 48 |
-| Enlace | `Link` | `primary`, `bodyStrong` |
+| Botón | `Button` (primary) | relleno `primary`, tinta `onPrimary`, radio `lg`, alto ≥ 52 |
+| Enlace | `Link` | `primaryText`, `bodyStrong` |
 | Banner | `AdBanner` | pie ≥ 20 %, borde `border`, IDs de prueba (INV-002) |
 
 Espaciado: padding de pantalla `xl` (20), gap entre tarjetas `lg` (16), padding interno `lg`.
@@ -84,8 +84,8 @@ Tipografía: `title` → `display` (hero) → `heading` (secciones) → `bodyStr
 ## 6. Dark / Light
 
 - Se usa `useTheme()`; **ningún** hex fijo en la pantalla.
-- `primarySoft` cambia de `#FFE9DF` (claro) a `#3A2822` (oscuro): el hero sigue destacando sin
-  deslumbrar.
+- `primarySoft` cambia de `#EAFBF7` (claro) a `#16332D` (oscuro): el hero sigue destacando sin
+  deslumbrar; el valor usa `primaryText` (`#17594F` claro / `#6ED9C3` oscuro) para mantener AA.
 - Sombras `card` discretas; en oscuro el peso visual lo da el `surface` sobre `background`.
 
 ## 7. Accesibilidad
