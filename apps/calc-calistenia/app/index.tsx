@@ -8,6 +8,7 @@ import { showInterstitial } from '../src/components/AdInterstitial';
 import { Button } from '../src/components/ui/Button';
 import { Card } from '../src/components/ui/Card';
 import { Field } from '../src/components/ui/Field';
+import { ScreenHeader } from '../src/components/ui/ScreenHeader';
 import { SegmentedControl } from '../src/components/ui/SegmentedControl';
 import {
   calculateVolume,
@@ -22,6 +23,7 @@ import {
 } from '../src/lib/calistenia';
 import { load, save } from '../src/lib/storage';
 import { useTheme, type ThemeColors } from '../src/theme/colors';
+import { radius, spacing, typography } from '../src/theme/tokens';
 
 interface Result {
   oneRepMax: number;
@@ -181,14 +183,10 @@ export default function HomeScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.header}>
-          <Text style={[styles.title, { color: colors.text }]}>
-            Calculadora de Calistenia
-          </Text>
-          <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
-            Estima tu 1RM, el volumen y el lastre equivalente. 100% offline.
-          </Text>
-        </View>
+        <ScreenHeader
+          title="Calculadora de Calistenia"
+          caption="Estima tu 1RM, el volumen y el lastre equivalente. 100% offline."
+        />
 
         <Card>
           <SegmentedControl<Unit>
@@ -248,7 +246,7 @@ export default function HomeScreen() {
               <Text style={[styles.heroLabel, { color: colors.textSecondary }]}>
                 1RM estimado
               </Text>
-              <Text style={[styles.heroValue, { color: colors.primary }]}>
+              <Text style={[styles.heroValue, { color: colors.primaryText }]}>
                 {result.oneRepMax.toFixed(1)} {unitLabel}
               </Text>
             </View>
@@ -275,7 +273,7 @@ export default function HomeScreen() {
           </Card>
         ) : null}
 
-        <Link href="/settings" style={[styles.link, { color: colors.primary }]}>
+        <Link href="/settings" style={[styles.link, { color: colors.primaryText }]}>
           Abrir ajustes
         </Link>
       </ScrollView>
@@ -287,7 +285,7 @@ export default function HomeScreen() {
             backgroundColor: colors.background,
             borderTopColor: colors.border,
             minHeight: Math.round(windowHeight * 0.2),
-            paddingBottom: Math.max(insets.bottom, 12),
+            paddingBottom: Math.max(insets.bottom, spacing.md),
           },
         ]}
       >
@@ -300,33 +298,30 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1 },
   scroll: { flex: 1 },
-  content: { padding: 20, gap: 16, paddingBottom: 24 },
-  header: { gap: 4, paddingTop: 4 },
-  title: { fontSize: 26, fontWeight: '800' },
-  subtitle: { fontSize: 15, lineHeight: 21 },
-  cardTitle: { fontSize: 18, fontWeight: '700' },
-  error: { fontSize: 14, fontWeight: '600' },
+  content: { padding: spacing.xl, gap: spacing.lg, paddingBottom: spacing.xxl },
+  cardTitle: { ...typography.heading },
+  error: { ...typography.label },
   hero: {
-    borderRadius: 16,
-    padding: 16,
-    gap: 2,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    gap: spacing.xs,
     alignItems: 'center',
   },
-  heroLabel: { fontSize: 13, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 0.4 },
-  heroValue: { fontSize: 32, fontWeight: '800' },
+  heroLabel: { ...typography.label, textTransform: 'uppercase' },
+  heroValue: { ...typography.display },
   resultRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 6,
+    paddingVertical: spacing.sm,
   },
-  resultLabel: { fontSize: 14 },
-  resultValue: { fontSize: 16, fontWeight: '700' },
-  link: { fontSize: 16, fontWeight: '600', textAlign: 'center', paddingVertical: 4 },
+  resultLabel: { ...typography.label },
+  resultValue: { ...typography.bodyStrong },
+  link: { ...typography.bodyStrong, textAlign: 'center', paddingVertical: spacing.xs },
   adContainer: {
     borderTopWidth: StyleSheet.hairlineWidth,
-    paddingTop: 8,
-    paddingHorizontal: 8,
+    paddingTop: spacing.sm,
+    paddingHorizontal: spacing.sm,
     alignItems: 'center',
     justifyContent: 'center',
   },

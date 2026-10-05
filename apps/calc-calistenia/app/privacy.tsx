@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
 
 import { useTheme } from '../src/theme/colors';
+import { spacing, typography } from '../src/theme/tokens';
 
 const LAST_UPDATED = '2026-10-04';
 const BRAND_NAME = '<NOMBRE COMERCIAL>';
@@ -68,9 +69,9 @@ export default function PrivacyScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 24, gap: 8, paddingBottom: 32 },
-  title: { fontSize: 24, fontWeight: '700' },
-  updated: { fontSize: 13, marginBottom: 8 },
-  heading: { fontSize: 16, fontWeight: '700', marginTop: 8 },
-  paragraph: { fontSize: 15, lineHeight: 22 },
+  content: { padding: spacing.xxl, gap: spacing.sm, paddingBottom: spacing.xxxl },
+  title: { ...typography.title },
+  updated: { ...typography.caption, marginBottom: spacing.sm },
+  heading: { ...typography.heading, marginTop: spacing.sm },
+  paragraph: { ...typography.body },
 });

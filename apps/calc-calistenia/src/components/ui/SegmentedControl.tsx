@@ -1,6 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { useTheme } from '../../theme/colors';
+import { radius, shadow, spacing, typography } from '../../theme/tokens';
 
 interface SegmentedControlProps<T extends string> {
   options: readonly T[];
@@ -9,7 +10,8 @@ interface SegmentedControlProps<T extends string> {
 }
 
 /**
- * Selector segmentado tipo píldora (kg/lb, etc.).
+ * Selector segmentado tipo píldora (kg/lb, etc.). El segmento activo usa `surface` +
+ * tinta `primaryText`; el contenedor lleva borde fino (línea clara).
  */
 export function SegmentedControl<T extends string>({
   options,
@@ -19,7 +21,12 @@ export function SegmentedControl<T extends string>({
   const colors = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surfaceAlt }]}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: colors.surfaceAlt, borderColor: colors.border },
+      ]}
+    >
       {options.map((option) => {
         const selected = option === value;
         return (
@@ -28,13 +35,16 @@ export function SegmentedControl<T extends string>({
             accessibilityRole="button"
             accessibilityState={{ selected }}
             onPress={() => onChange(option)}
-            style={[styles.segment, selected && { backgroundColor: colors.surface }]}
+            style={[
+              styles.segment,
+              selected && shadow.card,
+              selected && { backgroundColor: colors.surface },
+            ]}
           >
             <Text
               style={[
                 styles.label,
-                { color: selected ? colors.primary : colors.textSecondary },
-                selected && styles.labelSelected,
+                { color: selected ? colors.primaryText : colors.textSecondary },
               ]}
             >
               {option}
@@ -49,17 +59,18 @@ export function SegmentedControl<T extends string>({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    borderRadius: 14,
-    padding: 4,
-    gap: 4,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    padding: spacing.xs,
+    gap: spacing.xs,
   },
   segment: {
     flex: 1,
-    borderRadius: 10,
-    paddingVertical: 10,
+    minHeight: 44,
+    borderRadius: radius.sm,
+    paddingVertical: spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  label: { fontSize: 15, fontWeight: '600', textTransform: 'uppercase' },
-  labelSelected: { fontWeight: '700' },
+  label: { ...typography.label, textTransform: 'uppercase' },
 });
