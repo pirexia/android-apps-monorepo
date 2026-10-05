@@ -31,6 +31,8 @@ Cambios aplicados:
     tocar (`architect`, `spec-writer`, `implementer`, `test-writer`, `security-reviewer`,
     `doc-reviewer`).
   - `security-reviewer` ahora genera un informe en `apps/<app>/docs/SECURITY_REVIEW.md`.
+  - Añadido el modo **`ui-designer`** (🎨), que aplica el sistema de diseño leyendo
+    `docs/design-system/tokens.md` antes de maquetar (Dark/Light, accesibilidad).
 
 ## 3. Estructura de carpetas
 
@@ -42,7 +44,13 @@ android-apps-monorepo/
 ├── README.md                      # Visión general del monorrepo
 ├── CATALOG.md                     # Catálogo de apps (ideas, estado, versión)
 ├── docs/
-│   └── ARCHITECTURE.md            # Este documento
+│   ├── ARCHITECTURE.md            # Este documento
+│   ├── ADMOB_SETUP.md             # Guía de AdMob (común a todas las apps)
+│   ├── LEGAL_IDENTITY.md          # Identidad legal común (marca + email)
+│   └── design-system/             # Sistema de diseño (común)
+│       ├── tokens.md              # Fuente única de tokens
+│       ├── app-pattern.md         # Patrón de pantalla común a TODAS las apps
+│       └── tip-split-home.md      # Ejemplo de spec de pantalla
 ├── apps/
 │   ├── README.md                  # Catálogo y estado de cada app
 │   ├── _template/                 # Plantilla canónica (no se publica)
@@ -182,6 +190,7 @@ Después: actualizar `slug`, `scheme`, `package` y el nombre en `app.json`, y re
 | 2. Especificación | `spec-writer` | Idea aprobada | `apps/<slug>/docs/REQUIREMENTS.md` |
 | 3. Plan táctico | `architect` | REQUIREMENTS.md | `apps/<slug>/docs/PLAN.md` + `docs/ARCHITECTURE.md` si hay decisión estructural |
 | 4. Implementación | `implementer` | PLAN.md aprobado | Código en `apps/<slug>` + `memory.md` |
+| 4b. Diseño UI | `ui-designer` | PLAN.md + `docs/design-system/tokens.md` | Pantallas/componentes con el sistema de diseño (Dark/Light) |
 | 5. Tests | `test-writer` | Código implementado | Tests Jest + Testing Library en verde |
 | 6. Seguridad | `security-reviewer` | Código + `app.json` | Informe de hallazgos (bloquea si es crítico) |
 | 7. Legal y protección de datos | `legal-reviewer` | Código + `app.json` + docs | `apps/<slug>/docs/LEGAL.md` y textos legales |
