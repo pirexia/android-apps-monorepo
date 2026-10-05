@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Calculadora de Calistenia",
+    "slug": "calc-calistenia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "calc-calistenia",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": [
+      "expo-router",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.calccalistenia.app"
+    }
+  }
+}
