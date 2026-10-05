@@ -1,10 +1,12 @@
 import Constants from 'expo-constants';
 import { useRouter } from 'expo-router';
-import { Linking, StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, View } from 'react-native';
 
 import { Button } from '../src/components/ui/Button';
 import { Card } from '../src/components/ui/Card';
+import { ScreenHeader } from '../src/components/ui/ScreenHeader';
 import { useTheme } from '../src/theme/colors';
+import { spacing } from '../src/theme/tokens';
 
 function externalPolicyUrl(): string | null {
   const configured = Constants.expoConfig?.extra?.privacyPolicyUrl;
@@ -18,10 +20,10 @@ export default function SettingsScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.text }]}>Ajustes</Text>
-      <Text style={[styles.version, { color: colors.textSecondary }]}>
-        Versión {Constants.expoConfig?.version ?? '1.0.0'}
-      </Text>
+      <ScreenHeader
+        title="Ajustes"
+        caption={`Versión ${Constants.expoConfig?.version ?? '1.0.0'}`}
+      />
 
       <Card>
         <Button label="Política de privacidad" onPress={() => router.push('/privacy')} />
@@ -39,7 +41,5 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, gap: 12 },
-  title: { fontSize: 24, fontWeight: '800' },
-  version: { fontSize: 14 },
+  container: { flex: 1, padding: spacing.xl, gap: spacing.lg },
 });

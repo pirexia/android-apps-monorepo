@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 
 import { useTheme } from '../../theme/colors';
+import { radius, shadow, spacing } from '../../theme/tokens';
 
 interface CardProps {
   children: ReactNode;
@@ -9,7 +10,7 @@ interface CardProps {
 }
 
 /**
- * Contenedor de superficie con borde y sombra sutil.
+ * Contenedor de superficie con "línea clara" (borde 1 px) y sombra suave.
  */
 export function Card({ children, style }: CardProps) {
   const colors = useTheme();
@@ -18,6 +19,7 @@ export function Card({ children, style }: CardProps) {
     <View
       style={[
         styles.card,
+        shadow.card,
         { backgroundColor: colors.surface, borderColor: colors.border },
         style,
       ]}
@@ -29,14 +31,9 @@ export function Card({ children, style }: CardProps) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 20,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    padding: 18,
-    gap: 10,
-    shadowColor: '#000000',
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 2,
+    padding: spacing.lg,
+    gap: spacing.md,
   },
 });
