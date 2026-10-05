@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+
+# Expo / builds
+.expo/
+dist/
+web-build/
+*.tsbuildinfo
+
+# Nativo generado por `expo prebuild` (CNG)
+android/
+ios/
+
+# Secretos y configuracion local
+.env
+.mcp.json
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# Sistema operativo
+.DS_Store

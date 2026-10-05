@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "Calculadora de Calistenia",
+    "slug": "calc-calistenia",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "calc-calistenia",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/icon.png",
+    "plugins": [
+      "expo-router",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidSdk": "classic",
+          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
+          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+        }
+      ]
+    ],
+    "android": {
+      "package": "com.calccalistenia.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0F1220"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.calccalistenia.app",
+      "buildNumber": "1",
+      "supportsTablet": false
+    },
+    "extra": {
+      "privacyPolicyUrl": "",
+      "admob": {
+        "bannerUnitId": "ca-app-pub-3940256099942544/6300978111",
+        "interstitialUnitId": "ca-app-pub-3940256099942544/1033173712"
+      }
+    }
+  }
+}
