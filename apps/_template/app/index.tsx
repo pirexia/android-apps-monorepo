@@ -5,6 +5,7 @@ import { AdBanner } from '../src/components/AdBanner';
 import { Card } from '../src/components/ui/Card';
 import { ScreenHeader } from '../src/components/ui/ScreenHeader';
 import { useTheme } from '../src/theme/colors';
+import { spacing, typography } from '../src/theme/tokens';
 
 export default function HomeScreen() {
   const colors = useTheme();
@@ -19,7 +20,7 @@ export default function HomeScreen() {
         <Link
           href="/settings"
           accessibilityRole="link"
-          style={[styles.link, { color: colors.primary }]}
+          style={[styles.link, { color: colors.primaryText }]}
         >
           Abrir ajustes
         </Link>
@@ -31,8 +32,8 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, gap: 16 },
-  card: { gap: 12 },
-  link: { fontSize: 16, fontWeight: '700', paddingVertical: 12 },
+  container: { flex: 1, padding: spacing.xl, gap: spacing.lg },
+  card: { gap: spacing.md },
+  link: { ...typography.bodyStrong, paddingVertical: spacing.md },
   spacer: { flex: 1 },
 });

@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 
 import { useTheme } from '../../theme/colors';
+import { spacing, typography } from '../../theme/tokens';
 
 interface ScreenHeaderProps {
   title: string;
@@ -10,7 +11,6 @@ interface ScreenHeaderProps {
 /**
  * Cabecera de pantalla reutilizable: título + subtítulo opcional de una línea.
  * Sigue el patrón de pantalla común (`docs/design-system/app-pattern.md`).
- * Tipografía: `title` (26/800) + `caption` (12/400, `textSecondary`).
  */
 export function ScreenHeader({ title, caption }: ScreenHeaderProps) {
   const colors = useTheme();
@@ -33,7 +33,7 @@ export function ScreenHeader({ title, caption }: ScreenHeaderProps) {
 }
 
 const styles = StyleSheet.create({
-  container: { gap: 4 },
-  title: { fontSize: 26, fontWeight: '800', lineHeight: 32 },
-  caption: { fontSize: 12, fontWeight: '400', lineHeight: 16 },
+  container: { gap: spacing.xs },
+  title: { ...typography.title },
+  caption: { ...typography.caption },
 });

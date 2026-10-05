@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import { useTheme } from '../../theme/colors';
+import { radius, spacing, typography } from '../../theme/tokens';
 
 interface FieldProps {
   label: string;
@@ -18,7 +19,7 @@ interface FieldProps {
 }
 
 /**
- * Campo de texto con etiqueta y estilo "filled" (sin borde, sobre superficie tenue).
+ * Campo de texto "soft": fondo `surfaceAlt` con borde fino `border` (línea clara).
  */
 export function Field({
   label,
@@ -42,7 +43,11 @@ export function Field({
         accessibilityLabel={accessibilityLabel}
         style={[
           styles.input,
-          { color: colors.text, backgroundColor: colors.surfaceAlt },
+          {
+            color: colors.text,
+            backgroundColor: colors.surfaceAlt,
+            borderColor: colors.border,
+          },
         ]}
       />
     </View>
@@ -50,13 +55,13 @@ export function Field({
 }
 
 const styles = StyleSheet.create({
-  container: { gap: 6 },
-  label: { fontSize: 13, fontWeight: '600' },
+  container: { gap: spacing.sm },
+  label: { ...typography.label },
   input: {
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 17,
-    fontWeight: '600',
+    borderRadius: radius.md,
+    borderWidth: 1,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    ...typography.input,
   },
 });
