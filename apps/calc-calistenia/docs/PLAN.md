@@ -33,6 +33,10 @@ Decisiones estructurales:
   Ajustes solo muestra versión y enlace a política de privacidad (INV-004).
 - **Identidad Android**: `name` "Calculadora de Calistenia", `slug` `calc-calistenia`,
   `scheme` `calc-calistenia`, `android.package` `com.calccalistenia.app`.
+- **`react-native-paper` como capa de render (excepción documentada)**: el design-system
+  prohíbe dependencias de UI nuevas; se autoriza esta única excepción por decisión explícita
+  del usuario. Paper no aporta colores (se mapea desde `colors.ts`), no añade permisos ni
+  red (INV-005/INV-006) y es MIT/Callstack (verificado). `Field` se mantiene nativo.
 
 ## Tareas
 
@@ -69,6 +73,11 @@ Decisiones estructurales:
 - [x] 12. **Rediseño visual + icono**: paleta navy/naranja (Dark/Light), componentes UI
       (`Button`, `Card`, `Field`, `SegmentedControl`), banner de anuncios a pie fijo e icono
       bicolor de mancuernas. Sincronizado también en [`apps/_template`](../../_template/README.md:1).
+- [x] 13. **Integración `react-native-paper`** como capa de render: puente
+      [`paperTheme.ts`](../src/theme/paperTheme.ts:1) (tokens → MD3), `PaperProvider` en
+      [`app/_layout.tsx`](../app/_layout.tsx:1) y componentes base (`Button`, `Card`,
+      `SegmentedControl`) montados sobre primitivas Paper. Dependencias añadidas:
+      `react-native-paper@^5.15.3` y `@expo/vector-icons@^15`. Sin colores nuevos.
 
 ## Notas de arquitectura
 

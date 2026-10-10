@@ -19,3 +19,9 @@
 
 - Rutas Expo Router: `index.tsx` (utilidad) y `settings.tsx` (ajustes).
 - Sin dependencias HTTP en la lógica de negocio.
+
+## Nota — react-native-paper
+
+- `react-native-paper@5` es **capa de render** de `Button`/`Card`/`SegmentedControl`; la paleta
+  sigue en `src/theme/colors.ts` (puente en `src/theme/paperTheme.ts`).
+- Dependencias a instalar al scaffold: `react-native-paper@^5.15.3` y `@expo/vector-icons@^15`.

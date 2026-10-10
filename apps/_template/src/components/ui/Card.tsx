@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
+import { Surface } from 'react-native-paper';
 
 import { useTheme } from '../../theme/colors';
 import { radius, shadow, spacing } from '../../theme/tokens';
@@ -10,13 +11,16 @@ interface CardProps {
 }
 
 /**
- * Contenedor de superficie con "línea clara" (borde 1 px) y sombra suave.
+ * Contenedor de superficie con "línea clara" (borde 1 px) y sombra suave,
+ * montado sobre `Surface` de react-native-paper. La definición la da el borde,
+ * no la sombra (tokens.md §0).
  */
 export function Card({ children, style }: CardProps) {
   const colors = useTheme();
 
   return (
-    <View
+    <Surface
+      elevation={0}
       style={[
         styles.card,
         shadow.card,
@@ -25,7 +29,7 @@ export function Card({ children, style }: CardProps) {
       ]}
     >
       {children}
-    </View>
+    </Surface>
   );
 }
 

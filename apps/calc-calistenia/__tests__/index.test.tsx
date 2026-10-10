@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { fireEvent, render } from '@testing-library/react-native';
+import { fireEvent } from '@testing-library/react-native';
 
 import HomeScreen from '../app/index';
+import { renderWithPaper } from '../test-utils/render';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
@@ -38,13 +39,24 @@ jest.mock('react-native-google-mobile-ads', () => {
   };
 });
 
-jest.mock('react-native-safe-area-context', () => ({
-  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
-}));
+jest.mock('react-native-safe-area-context', () => {
+  const React = require('react');
+  const { View } = require('react-native');
+
+  const SafeAreaInsetsContext = React.createContext(null);
+  const SafeAreaProvider = ({ children }: { children: React.ReactNode }) =>
+    React.createElement(View, null, children);
+
+  return {
+    SafeAreaInsetsContext,
+    SafeAreaProvider,
+    useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+  };
+});
 
 describe('HomeScreen (HU-001 … HU-004)', () => {
   test('HU-001/HU-002 · CA-001, CA-003: camino feliz desde la UI', () => {
-    const { getByLabelText, getByText } = render(<HomeScreen />);
+    const { getByLabelText, getByText } = renderWithPaper(<HomeScreen />);
 
     fireEvent.changeText(getByLabelText('Peso corporal'), '80');
     fireEvent.changeText(getByLabelText('Lastre añadido'), '0');
@@ -59,7 +71,7 @@ describe('HomeScreen (HU-001 … HU-004)', () => {
   });
 
   test('CA-004: muestra "Sin lastre adicional" cuando no hace falta lastre', () => {
-    const { getByLabelText, getByText } = render(<HomeScreen />);
+    const { getByLabelText, getByText } = renderWithPaper(<HomeScreen />);
 
     fireEvent.changeText(getByLabelText('Peso corporal'), '80');
     fireEvent.changeText(getByLabelText('Lastre añadido'), '0');
@@ -71,7 +83,7 @@ describe('HomeScreen (HU-001 … HU-004)', () => {
   });
 
   test('CA-008: mensaje de validación con entrada inválida', () => {
-    const { getByLabelText, getByText } = render(<HomeScreen />);
+    const { getByLabelText, getByText } = renderWithPaper(<HomeScreen />);
 
     fireEvent.changeText(getByLabelText('Peso corporal'), '0');
     fireEvent.changeText(getByLabelText('Lastre añadido'), '0');
@@ -83,7 +95,7 @@ describe('HomeScreen (HU-001 … HU-004)', () => {
   });
 
   test('HU-003: cambia a libras y persiste la preferencia', () => {
-    const { getByText } = render(<HomeScreen />);
+    const { getByText } = renderWithPaper(<HomeScreen />);
 
     fireEvent.press(getByText('lb'));
 
@@ -92,7 +104,7 @@ describe('HomeScreen (HU-001 … HU-004)', () => {
   });
 
   test('CA-010: guarda el último cálculo al pulsar Calcular', () => {
-    const { getByLabelText, getByText } = render(<HomeScreen />);
+    const { getByLabelText, getByText } = renderWithPaper(<HomeScreen />);
 
     fireEvent.changeText(getByLabelText('Peso corporal'), '80');
     fireEvent.changeText(getByLabelText('Lastre añadido'), '0');
@@ -116,7 +128,7 @@ describe('HomeScreen (HU-001 … HU-004)', () => {
       return Promise.resolve(null);
     });
 
-    const { findByText, getByLabelText } = render(<HomeScreen />);
+    const { findByText, getByLabelText } = renderWithPaper(<HomeScreen />);
 
     expect(await findByText('106.7 kg')).toBeTruthy();
     expect(getByLabelText('Peso corporal').props.value).toBe('80');

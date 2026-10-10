@@ -28,3 +28,20 @@ defecto. Tras la persistencia del último cálculo, los datos siguen siendo 100%
 
 Sin hallazgos de seguridad/privacidad propios de la app más allá del anterior. Desde la
 perspectiva de Play Store, ese hallazgo escala a CRITICO (ver [`issues.md`](issues.md:1)).
+
+## Actualización — integración `react-native-paper` (dependencias)
+
+Fecha: 2026-10-10 · Alcance: PR `chore(root)` #7 (capa de render en `_template` + pilotada en `calc-calistenia`).
+
+| # | Punto | Resultado | Evidencia |
+| --- | --- | --- | --- |
+| 8 | Dependencias nuevas sin riesgo de supply-chain | ✅ MIT verificadas | `react-native-paper@5.15.3`, `@expo/vector-icons@15.1.1`, `@callstack/react-theme-provider@3.0.9`, `color@3.2.1`, `use-latest-callback@0.2.6` (todas MIT) |
+| 9 | Sin permisos nuevos (INV-006) | ✅ `app.json` sin cambios | `git diff` de `app.json` vacío |
+| 10 | Sin red en la lógica de negocio (INV-005) | ✅ sin `fetch`/`axios`/HTTP en el código nuevo | búsqueda en `paperTheme.ts`, componentes UI y `test-utils` |
+| 11 | Sin analítica/telemetría | ✅ solo componentes de UI + tema | [`package.json`](../package.json:6) |
+| 12 | `npm audit --omit=dev` | ⚠️ 27 vuln. preexistentes en el toolchain Expo (`@expo/cli`…); **ninguna** en Paper ni en sus deps | `npm audit --omit=dev` |
+
+Veredicto: **sin hallazgos nuevos**. `react-native-paper` y sus dependencias directas no aparecen
+en el audit de producción; las vulnerabilidades restantes pertenecen al toolchain de Expo y son
+previas a esta PR. Paper es MIT/Callstack (verificado) y actúa solo como capa de render: sin
+permisos, sin red y sin recogida de datos.
