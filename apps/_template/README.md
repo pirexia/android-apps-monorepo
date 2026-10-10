@@ -20,7 +20,8 @@ cp apps/_template/tsconfig.json apps/<slug>/tsconfig.json
 cd apps/<slug>
 npx expo install expo-router react-native-safe-area-context react-native-screens \
   expo-linking expo-constants expo-status-bar \
-  @react-native-async-storage/async-storage react-native-google-mobile-ads
+  @react-native-async-storage/async-storage react-native-google-mobile-ads \
+  react-native-paper @expo/vector-icons
 ```
 
 ## Después del scaffold
@@ -45,7 +46,7 @@ _app/
 │   ├── components/   # AdBanner y componentes
 │   │   └── ui/       # sistema de diseño: Button, Card, Field, ScreenHeader, SegmentedControl
 │   ├── lib/          # storage (AsyncStorage)
-│   └── theme/        # paleta Dark/Light (marca navy + naranja)
+│   └── theme/        # paleta Dark/Light + puente Paper (paperTheme.ts)
 ├── docs/             # REQUIREMENTS, PLAN, memory
 ├── app.json
 ├── tsconfig.json

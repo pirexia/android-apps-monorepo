@@ -8,6 +8,28 @@
 > [`apps/_template/src/theme/tokens.ts`](../../apps/_template/src/theme/tokens.ts:1)
 > y componentes base en `apps/_template/src/components/ui/`.
 
+## Paper como capa de render (`react-native-paper@5`)
+
+Decisión [`chore(root)`](../../../apps/calc-calistenia/docs/PLAN.md:1): `react-native-paper` se
+usa **solo como capa de render** de los componentes base (`Button`, `Card`, `SegmentedControl`).
+**No es fuente de color**: la paleta sigue viviendo en [`colors.ts`](../../apps/_template/src/theme/colors.ts:1)
+y en este fichero. El puente [`paperTheme.ts`](../../apps/_template/src/theme/paperTheme.ts:1)
+traduce los roles propios a roles MD3 **sin introducir hex nuevos**:
+
+| Rol propio | Rol MD3 (Paper) |
+| --- | --- |
+| `primary` | `primary` |
+| `onPrimary` | `onPrimary` |
+| `primarySoft` | `primaryContainer` / `secondaryContainer` |
+| `primaryText` | `onPrimaryContainer` / `onSecondaryContainer` / `secondary` / `tertiary` |
+| `background` / `surface` / `surfaceAlt` | `background` / `surface` / `surfaceVariant` |
+| `text` / `textSecondary` | `onBackground` + `onSurface` / `onSurfaceVariant` |
+| `border` | `outline` / `outlineVariant` |
+| `danger` | `error` |
+
+Regla al usar Paper: los colores se pasan explícitos desde `useTheme()` o mediante el
+`PaperProvider` con `usePaperTheme()`; **nunca** se hardcodea un color en el JSX.
+
 ## 0. Estilo — "soft pastel"
 
 Estética común a **todas** las apps: minimalista, luminosa y de contraste alto. Rasgos:

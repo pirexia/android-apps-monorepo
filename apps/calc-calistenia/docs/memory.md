@@ -157,3 +157,18 @@
   (configurar AdMob e inyectar IDs reales) y [`docs/LEGAL_IDENTITY.md`](../../../docs/LEGAL_IDENTITY.md:1)
   (identidad legal común: responsable, NIF, email, URL). **Pendiente**: aportar los valores reales
   para sustituir los placeholders en [`LEGAL.md`](LEGAL.md:31) y [`privacy.tsx`](../app/privacy.tsx:6).
+
+## Actualización — integración react-native-paper (capa de render)
+
+- **Qué se ejecutó**: dependencias `react-native-paper@5.15.3` y `@expo/vector-icons@15.1.1`
+  (con `npm install --legacy-peer-deps`); puente de tema
+  [`src/theme/paperTheme.ts`](../src/theme/paperTheme.ts:1) que traduce `colors.ts` → roles MD3;
+  `PaperProvider` en [`app/_layout.tsx`](../app/_layout.tsx:1); `Button`/`Card`/`SegmentedControl`
+  montados sobre primitivas Paper. `Field` y `ScreenHeader` se mantienen nativos. Helper de tests
+  `test-utils/render.tsx` y mock ampliado de `react-native-safe-area-context`.
+- **Verificación**: `npx tsc --noEmit` limpio; `npx jest --ci` → 5 suites, **28 tests en verde**.
+- **Qué falló**: el mock de `react-native-safe-area-context` no exponía `SafeAreaInsetsContext`
+  (requerido por `PaperProvider`) → `TypeError reading 'Consumer'`; resuelto ampliando el mock.
+  El helper de render dentro de `__tests__/` se interpretaba como suite vacía → movido a
+  `test-utils/`.
+- **Siguiente paso**: `security-reviewer` (dependencias/supply-chain) y `doc-reviewer`.
