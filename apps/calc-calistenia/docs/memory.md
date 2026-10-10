@@ -172,3 +172,12 @@
   El helper de render dentro de `__tests__/` se interpretaba como suite vacía → movido a
   `test-utils/`.
 - **Siguiente paso**: `security-reviewer` (dependencias/supply-chain) y `doc-reviewer`.
+
+## Actualización — compilación (export Android)
+
+- **Verificación**: `npx expo export --platform android` → bundle Hermes OK (**1566 módulos**, 3.5 MB)
+  y 28 assets (incluye `MaterialCommunityIcons.ttf` de `@expo/vector-icons`). Sin errores de bundling
+  con `react-native-paper`.
+- **Nota**: el entorno no tiene `JAVA_HOME`/`ANDROID_HOME` ni carpeta `android/`, por lo que el
+  "compilado" de la app gestionada se valida con `expo export`. Un APK nativo requeriría
+  `npx expo prebuild` + `./gradlew assembleDebug` en un entorno con Android SDK.
